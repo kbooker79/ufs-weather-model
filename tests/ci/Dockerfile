@@ -19,4 +19,3 @@ ENV MACHINE_ID=linux
 
 WORKDIR $HOME/ufs-weather-model/tests
 #CMD ./opnReqTest -n $test_name -c $run_case
-CMD ./ls -l 
