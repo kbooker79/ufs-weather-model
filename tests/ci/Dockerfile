@@ -1,4 +1,4 @@
-From noaaepic/ubuntu20.04-gnu9.3-hpc-stack:v1.2
+From noaaepic/input-data:20221101
 
 CMD ["/bin/bash"]
 
