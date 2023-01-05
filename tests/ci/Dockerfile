@@ -3,7 +3,6 @@ From noaaepic/input-data:20221101
 CMD ["/bin/bash"]
 
 ENV HOME=/home/builder
-COPY --chown=builder:builder . $HOME/ufs-weather-model
 
 USER builder
 ENV USER=builder
