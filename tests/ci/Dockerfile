@@ -1,7 +1,6 @@
 From noaaepic/ubuntu20.04-gnu9.3-hpc-stack:v1.2e
 
 CMD ["/bin/bash"]
-CMD ["cat /etc/passwd"]
 COPY --chown=builder:builder . $HOME/ufs-weather-model
 
 ENV HOME=/home/builder
