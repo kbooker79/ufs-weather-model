@@ -1,4 +1,4 @@
-From noaaepic/ubuntu20.04-gnu9.3-hpc-stack:v1.2 
+From noaaepic/ubuntu20.04-gnu9.3-hpc-stack:v1.2e
 
 CMD ["/bin/bash"]
 CMD ["cat /etc/passwd"]
@@ -18,4 +18,4 @@ ENV RT_MACHINE=linux
 ENV MACHINE_ID=linux
 
 WORKDIR $HOME/ufs-weather-model/tests
-#CMD ./opnReqTest -n $test_name -c $run_case
+CMD ./opnReqTest -n $test_name -c $run_case
