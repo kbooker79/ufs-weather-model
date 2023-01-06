@@ -1,9 +1,12 @@
 From noaaepic/ubuntu20.04-gnu9.3-hpc-stack:v1.2
 
 CMD ["/bin/bash"]
-COPY --chown=builder:builder . $HOME/ufs-weather-model
 
 ENV HOME=/home/builder
+
+COPY --chown=builder:builder . $HOME/ufs-weather-model
+
+
 
 USER builder
 ENV USER=builder
