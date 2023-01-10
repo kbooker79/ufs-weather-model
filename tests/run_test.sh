@@ -17,6 +17,8 @@ cleanup() {
 write_fail_test() {
   if [[ ${OPNREQ_TEST} == true ]]; then
     echo "${TEST_NAME} ${TEST_NR} failed in run_test" >> $PATHRT/fail_opnreq_test_${TEST_NR}
+    echo "current disk space is..."
+    df -h
   else
     echo "${TEST_NAME} ${TEST_NR} failed in run_test" >> $PATHRT/fail_test_${TEST_NR}
   fi
