@@ -1,5 +1,7 @@
 pipeline {
-    agent none
+    docker.withRegistry('https://hub.docker.com', 'DockerHubNOAAEPIC') {
+    ...
+    } 
     stages {
         stage('Run UFS WM Container Build') {
             parallel {
@@ -14,7 +16,6 @@ pipeline {
                             echo "Building with CMAKE_FLAGS ${CONFIG_CHOICE} configuration"
                             DATE=$(date '+%Y%m%d') 
 
-                            docker login -u $DOCKERNAME -p $DOCKERPW
 
                             cd ufs-containers/Docker
                             docker pull noaaepic/ubuntu20.04-intel-spack:latest
