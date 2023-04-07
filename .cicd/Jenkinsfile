@@ -9,11 +9,12 @@ pipeline {
                     steps {
                       cleanWs()    
                       checkout changelog: false, poll: false, scm: scmGit(branches: [[name: 'feature/ufs-wm-container']], extensions: [], gitTool: 'Default', userRemoteConfigs: [[credentialsId: 'DockerHubNOAAEPIC', url: 'https://github.com/NOAA-EPIC/ufs-containers']])
+                      withCredentials([string(credentialsId: 'DockerHubNOAAEPIC', variable: 'DOCKER_PASSWORD')
                       sh '''
                             echo "Building with CMAKE_FLAGS ${CONFIG_CHOICE} configuration"
                             DATE=$(date '+%Y%m%d') 
 
-
+                            docker login -u noaaepic -p ${DOCKER_PASSWORD}
                             cd ufs-containers/Docker
                             docker pull noaaepic/ubuntu20.04-intel-spack:latest
                             docker build --no-cache --build-arg CMAKE_FLAGS="${CONFIG_CHOICE}" --build-arg CMAKE_C_COMPILER="$(which mpiicc)" -t noaaepic/ubuntu20.04-intel-spackstack-ufswm:${DATE}-${BUILD_NUMBER} -f ./Dockerfile.ubuntu20.04-intel-spackstack-ufswm .
