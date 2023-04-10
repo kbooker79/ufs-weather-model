@@ -3,7 +3,9 @@ pipeline {
 
     stages {
         stage('Build Singularity Container') {
-
+           agent {
+                 label "cheyenne"
+           }
            steps {
               script {
               
