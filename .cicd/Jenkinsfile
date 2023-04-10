@@ -2,25 +2,18 @@ pipeline {
     agent none
 
     stages {
-        stage('Run UFS WM Container Build') {
-                stage('Run UFS Workflow') {
-                    agent {
-                        label "docker"
-                    }
-                    steps {
-                      cleanWs()    
-                      
-                      checkout changelog: false, poll: false, scm: scmGit(branches: [[name: 'feature/ufs-wm-container']], extensions: [], gitTool: 'Default', userRemoteConfigs: [[credentialsId: 'DockerHubNOAAEPIC', url: 'https://github.com/NOAA-EPIC/ufs-containers']])
-                      sh '''
-                            DATE=$(date '+%Y%m%d') 
+        stage('Build Singularity Container') {
 
+           steps {
+              script {
+              
+              sh '''
+                echo "Hello world!"
+              '''
+  
+              }
 
-                            cd ufs-containers/Docker
-                            docker pull noaaepic/ubuntu20.04-intel-spack:latest
-
-                      '''
-                    }
-                }
-        }
+           }
     }
+  }
 }
