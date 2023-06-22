@@ -355,7 +355,7 @@ elif [[ $MACHINE_ID = expanse ]]; then
   SCHEDULER=slurm
   cp fv3_conf/fv3_slurm.IN_expanse fv3_conf/fv3_slurm.IN
 
- elif [[ $MACHINE_ID = noaacloud.* ]]; then
+ elif [[ $MACHINE_ID = noaacloud ]]; then
 
   module use /apps/modules/modulefiles
   module load rocoto/1.3.3
