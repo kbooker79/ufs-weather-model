@@ -1,0 +1,94 @@
+Fri Jul 14 16:44:15 UTC 2023
+Start Regression test
+
+Testing UFSWM Hash: 9dfd5036a678fe12197700bf91bd96931a9c5c57
+Testing With Submodule Hashes:
+ 37cbb7d6840ae7515a9a8f0dfd4d89461b3396d1 AQM (v0.2.0-37-g37cbb7d)
+ 2aa6bfbb62ebeecd7da964b8074f6c3c41c7d1eb CDEPS-interface/CDEPS (cdeps0.4.17-38-g2aa6bfb)
+ 5840cd1931e2e32b9dfded0c19049d0f1ec3d04c CICE-interface/CICE (CICE6.0.0-440-g5840cd1)
+ 9923d6d17700daf502d9a016138bf8eb8aad7f09 CMEPS-interface/CMEPS (cmeps_v0.4.1-1402-g9923d6d)
+ cabd7753ae17f7bfcc6dad56daf10868aa51c3f4 CMakeModules (v1.0.0-28-gcabd775)
+ 67e146d3a7a7f4183975ad5380bb91e25fc55f03 FV3 (heads/develop)
+ b94145fca46169bbc53ec6b8d4ed849715dc5130 GOCART (rt-v5_29_1_BPL91_1-exRT4-514-gb94145f)
+ 24437531dcf8580aadaf6ebeb9de544ccfc674f9 HYCOM-interface/HYCOM (2.3.00-120-g2443753)
+ fdbfa2523650b81a0771f3fb1791ea3e3dce66db MOM6-interface/MOM6 (dev/master/repository_split_2014.10.10-9713-gfdbfa25)
+ e1260f1ee711f66a1141010d13511a69c0f8637b NOAHMP-interface/noahmp (v3.7.1-292-ge1260f1)
+ c4b116886b5ef9af5fb4942d7161074df3402732 WW3 (6.07.1-325-gc4b1168)
+ 3bfa4468d85e5b63980c28434f494967f38b10a3 stochastic_physics (ufs-v2.0.0-171-g3bfa446)
+Compile 2_intel elapsed time 795 seconds. -DAPP=S2SWA -DCCPP_SUITES=FV3_GFS_v17_coupled_p8 -DMPI=ON -DCMAKE_BUILD_TYPE=Release -DMOM6SOLO=ON
+
+baseline dir = /contrib/ufs-weather-model/RT/NEMSfv3gfs/develop-20230705/cpld_control_p8_intel
+working dir  = /lustre//stmp2/Kristopher.Booker/FV3_RT/rt_21457/cpld_control_p8_intel
+Checking test 001 cpld_control_p8_intel results ....
+ Comparing sfcf021.tile1.nc .........OK
+ Comparing sfcf021.tile2.nc .........OK
+ Comparing sfcf021.tile3.nc .........OK
+ Comparing sfcf021.tile4.nc .........OK
+ Comparing sfcf021.tile5.nc .........OK
+ Comparing sfcf021.tile6.nc .........OK
+ Comparing atmf021.tile1.nc .........OK
+ Comparing atmf021.tile2.nc .........OK
+ Comparing atmf021.tile3.nc .........OK
+ Comparing atmf021.tile4.nc .........OK
+ Comparing atmf021.tile5.nc .........OK
+ Comparing atmf021.tile6.nc .........OK
+ Comparing sfcf024.tile1.nc .........OK
+ Comparing sfcf024.tile2.nc .........OK
+ Comparing sfcf024.tile3.nc .........OK
+ Comparing sfcf024.tile4.nc .........OK
+ Comparing sfcf024.tile5.nc .........OK
+ Comparing sfcf024.tile6.nc .........OK
+ Comparing atmf024.tile1.nc .........OK
+ Comparing atmf024.tile2.nc .........OK
+ Comparing atmf024.tile3.nc .........OK
+ Comparing atmf024.tile4.nc .........OK
+ Comparing atmf024.tile5.nc .........OK
+ Comparing atmf024.tile6.nc .........OK
+ Comparing gocart.inst_aod.20210323_0600z.nc4 .........OK
+ Comparing RESTART/20210323.060000.coupler.res .........OK
+ Comparing RESTART/20210323.060000.fv_core.res.nc .........OK
+ Comparing RESTART/20210323.060000.fv_core.res.tile1.nc .........OK
+ Comparing RESTART/20210323.060000.fv_core.res.tile2.nc .........OK
+ Comparing RESTART/20210323.060000.fv_core.res.tile3.nc .........OK
+ Comparing RESTART/20210323.060000.fv_core.res.tile4.nc .........OK
+ Comparing RESTART/20210323.060000.fv_core.res.tile5.nc .........OK
+ Comparing RESTART/20210323.060000.fv_core.res.tile6.nc .........OK
+ Comparing RESTART/20210323.060000.fv_srf_wnd.res.tile1.nc .........OK
+ Comparing RESTART/20210323.060000.fv_srf_wnd.res.tile2.nc .........OK
+ Comparing RESTART/20210323.060000.fv_srf_wnd.res.tile3.nc .........OK
+ Comparing RESTART/20210323.060000.fv_srf_wnd.res.tile4.nc .........OK
+ Comparing RESTART/20210323.060000.fv_srf_wnd.res.tile5.nc .........OK
+ Comparing RESTART/20210323.060000.fv_srf_wnd.res.tile6.nc .........OK
+ Comparing RESTART/20210323.060000.fv_tracer.res.tile1.nc .........OK
+ Comparing RESTART/20210323.060000.fv_tracer.res.tile2.nc .........OK
+ Comparing RESTART/20210323.060000.fv_tracer.res.tile3.nc .........OK
+ Comparing RESTART/20210323.060000.fv_tracer.res.tile4.nc .........OK
+ Comparing RESTART/20210323.060000.fv_tracer.res.tile5.nc .........OK
+ Comparing RESTART/20210323.060000.fv_tracer.res.tile6.nc .........OK
+ Comparing RESTART/20210323.060000.phy_data.tile1.nc .........OK
+ Comparing RESTART/20210323.060000.phy_data.tile2.nc .........OK
+ Comparing RESTART/20210323.060000.phy_data.tile3.nc .........OK
+ Comparing RESTART/20210323.060000.phy_data.tile4.nc .........OK
+ Comparing RESTART/20210323.060000.phy_data.tile5.nc .........OK
+ Comparing RESTART/20210323.060000.phy_data.tile6.nc .........OK
+ Comparing RESTART/20210323.060000.sfc_data.tile1.nc .........OK
+ Comparing RESTART/20210323.060000.sfc_data.tile2.nc .........OK
+ Comparing RESTART/20210323.060000.sfc_data.tile3.nc .........OK
+ Comparing RESTART/20210323.060000.sfc_data.tile4.nc .........OK
+ Comparing RESTART/20210323.060000.sfc_data.tile5.nc .........OK
+ Comparing RESTART/20210323.060000.sfc_data.tile6.nc .........OK
+ Comparing RESTART/20210323.060000.MOM.res.nc .........OK
+ Comparing RESTART/iced.2021-03-23-21600.nc .........OK
+ Comparing RESTART/ufs.cpld.cpl.r.2021-03-23-21600.nc .........OK
+ Comparing 20210323.060000.out_pnt.ww3 .........OK
+ Comparing 20210323.060000.out_grd.ww3 .........OK
+
+  0: The total amount of wall time                        = 401.477076
+  0: The maximum resident set size (KB)                   = 3234944
+
+Test 001 cpld_control_p8_intel PASS
+
+
+REGRESSION TEST WAS SUCCESSFUL
+Fri Jul 14 17:15:39 UTC 2023
+Elapsed time: 00h:31m:25s. Have a nice day!
