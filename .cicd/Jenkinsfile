@@ -12,7 +12,7 @@ pipeline {
       steps {
         script {
           for (label in pullRequest.labels) {
-            if ((label.matches("(.*)-RT")) = true) {
+            if ((label.matches("(.*)-RT")) == "true") {
                echo "I am a regression test label."
             } 
           } 
