@@ -12,8 +12,7 @@ pipeline {
       steps {
         script {
           for (label in pullRequest.labels) {
-             if (label ==~ "-RT") 
-                echo "I am a regression test."
+            println(label.matches("-RT")); 
           } 
           sh 'echo "I ran as expected!"'
         }    
