@@ -14,10 +14,11 @@ pipeline {
           for (label in pullRequest.labels) {
             if ((label.matches("(.*)-RT"))) {
               //println(label.matches("(.*)-RT")); 
-              println("I am a regression test");
+              param.CREATE_BASELINES = false
             } 
           } 
           sh 'echo "I ran as expected!"'
+          sh '"The value of CREATE_BASELINES is ${CREATE_BASELINES}"'
         }    
       }
     }
