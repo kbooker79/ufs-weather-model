@@ -11,12 +11,9 @@ pipeline {
        }
       steps {
         script {
-          pullRequest.labels.each{
-            if ($it =~ "*-RT") {
-              echo "Regression Test label"
-            }  
-          }
-          
+          for (label in pullRequest.labels) {
+            echo "$label"
+          } 
           sh 'echo "I ran as expected!"'
         }    
       }
