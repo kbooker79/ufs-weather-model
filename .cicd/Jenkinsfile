@@ -1,0 +1,19 @@
+pipeline {
+  agent none
+  parameters {
+    string(name: 'BRANCH', defaultValue: 'develop', description: '')
+  }
+  
+  stages {
+    stage('Start Parallelworks Cluster') {
+       agent {
+        label 'built-in'   
+       }
+      steps {
+        script {
+          sh 'echo "I ran as expected!"'
+        }    
+      }
+    }
+  }
+}
