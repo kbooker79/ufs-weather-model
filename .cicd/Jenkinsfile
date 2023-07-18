@@ -14,7 +14,7 @@ pipeline {
           for (label in pullRequest.labels) {
             if ((label.matches("(.*)-RT"))) {
               //println(label.matches("(.*)-RT")); 
-              param.CREATE_BASELINES = false
+              env.CREATE_BASELINES = false
             } 
           } 
           sh 'echo "I ran as expected!"'
