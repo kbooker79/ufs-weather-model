@@ -18,7 +18,7 @@ pipeline {
             } 
           } 
           sh 'echo "I ran as expected!"'
-          sh '"The value of CREATE_BASELINES is ${CREATE_BASELINES}"'
+          sh 'echo "The value of CREATE_BASELINES is ${CREATE_BASELINES}"'
         }    
       }
     }
