@@ -5,15 +5,15 @@ pipeline {
   }
   
   stages {
-    stage('Start Parallelworks Cluster') {
+    stage('Testing') {
        agent {
         label 'built-in'   
        }
       steps {
         script {
-          pullRequest.labels.each{
-            echo "label: $it"
-         }
+          pullRequest.labels.contains('RT') {
+             echo "I am a regression test."
+          }
           sh 'echo "I ran as expected!"'
         }    
       }
