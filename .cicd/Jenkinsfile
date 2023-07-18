@@ -11,6 +11,9 @@ pipeline {
        }
       steps {
         script {
+          pullRequest.labels.each{
+            echo "label: $it"
+         }
           sh 'echo "I ran as expected!"'
         }    
       }
