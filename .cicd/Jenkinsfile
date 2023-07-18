@@ -12,13 +12,16 @@ pipeline {
       steps {
         script {
           for (label in pullRequest.labels) {
-            if ((label.matches("(.*)-RT"))) {
-              //println(label.matches("(.*)-RT")); 
-              env.CREATE_BASELINES = false
+            if ((label.matches("(.*)-BL"))) {
+              //println(label.matches("(.*)-BL")); 
+              env.CREATE_BASELINES = true 
             } 
           } 
-          sh 'echo "I ran as expected!"'
-          sh 'echo "The value of CREATE_BASELINES is ${CREATE_BASELINES}"'
+          sh '''
+          if [[ "${CREATE_BASELINES}" = true ]] 
+          then
+          echo "Creating baselines for regressions tests"
+          '''
         }    
       }
     }
