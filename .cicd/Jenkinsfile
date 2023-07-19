@@ -14,6 +14,7 @@ pipeline {
           for (label in pullRequest.labels) {
             if ((label.matches("(.*)-BL"))) {
               env.CREATE_BASELINES = true 
+              // adding a comment
             } 
           } 
           sh '''
