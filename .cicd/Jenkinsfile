@@ -50,7 +50,7 @@ pipeline {
         environment {
         GITHUB_SSH_KEY = credentials('ParallelworksGithubPrivateKey')
         ACCNR = 'epic'
-        GIT_URL = 'https://github.com/kbooker79/ufs-weather-model'
+        GIT_URL = 'https://github.com/kbooker79/ufs-weather-model.git'
       }
       steps {
           script {
