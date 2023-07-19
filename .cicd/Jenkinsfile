@@ -3,7 +3,6 @@ pipeline {
   parameters {
     string(name: 'BRANCH', defaultValue: 'develop', description: '')
   }
-//Pedantic comment  
   stages {
     stage('Start Parallelworks Cluster') {
        agent {
@@ -27,21 +26,70 @@ pipeline {
           }
           if (CHOICE_NODE == 'azclusternoaav2use1') {
                 echo "Starting up Parallelworks cluster ${CHOICE_NODE}...this might take 5-10 minutes...please be patient."
-//                build job: 'parallel-works-jenkins-client/start-cluster', parameters: [string(name: 'PW_CLUSTER_NAME', value: 'azclusternoaav2use1'), string(name: 'PW_CLUSTER_SSH_KEY', value: '~/.ssh/pw_id_rsa'), string(name: 'JAVA_VERSION', value: '11')]
+                build job: 'parallel-works-jenkins-client/start-cluster', parameters: [string(name: 'PW_CLUSTER_NAME', value: 'azclusternoaav2use1'), string(name: 'PW_CLUSTER_SSH_KEY', value: '~/.ssh/pw_id_rsa'), string(name: 'JAVA_VERSION', value: '11')]
                
             } 
           else if (CHOICE_NODE == 'gclusternoaav2usc1') {
                 echo "Starting up Parallelworks cluster ${CHOICE_NODE}...this might take 5-10 minutes...please be patient."
-//                build job: 'parallel-works-jenkins-client/start-cluster', parameters: [string(name: 'PW_CLUSTER_NAME', value: 'gclusternoaav2usc1'), string(name: 'PW_CLUSTER_SSH_KEY', value: '~/.ssh/pw_id_rsa'), string(name: 'JAVA_VERSION', value: '11')]
+                build job: 'parallel-works-jenkins-client/start-cluster', parameters: [string(name: 'PW_CLUSTER_NAME', value: 'gclusternoaav2usc1'), string(name: 'PW_CLUSTER_SSH_KEY', value: '~/.ssh/pw_id_rsa'), string(name: 'JAVA_VERSION', value: '11')]
             }
           else if (CHOICE_NODE == 'pclusternoaav2use1') {
                  echo "Starting up Parallelworks cluster ${CHOICE_NODE}...this might take 5-10 minutes...please be patient."
-//                build job: 'parallel-works-jenkins-client/start-cluster', parameters: [string(name: 'PW_CLUSTER_NAME', value: 'pclusternoaav2use1'), string(name: 'PW_CLUSTER_SSH_KEY', value: '~/.ssh/pw_id_rsa'), string(name: 'JAVA_VERSION', value: '11')]
+                build job: 'parallel-works-jenkins-client/start-cluster', parameters: [string(name: 'PW_CLUSTER_NAME', value: 'pclusternoaav2use1'), string(name: 'PW_CLUSTER_SSH_KEY', value: '~/.ssh/pw_id_rsa'), string(name: 'JAVA_VERSION', value: '11')]
             }
           else {
                 echo "${CHOICE_NODE} is NOT a Parallelworks cluster, moving on..."
             }
         }    
+      }
+    } 
+  stage('Run Regression Tests script') {
+        agent {
+          label "${CHOICE_NODE}"
+        }
+        environment {
+        GITHUB_SSH_KEY = credentials('ParallelworksGithubPrivateKey')
+        ACCNR = 'epic'
+        GIT_URL = 'https://github.com/kbooker79/ufs-weather-model'
+      }
+      steps {
+          script {
+            for (label in pullRequest.labels) {
+            if ((label.matches("(.*)-BL"))) {
+               env.CREATE_BASELINES='true'
+            } 
+            else {
+               env.CREATE_BASELINES='false'
+            }
+          }
+              if (CHOICE_NODE == 'azclusternoaav2use1') {
+                env.NODE_PATH="/lustre/"
+                
+              }
+              else if (CHOICE_NODE == 'gclusternoaav2usc1') {
+                env.NODE_PATH="/lustre/"
+                
+              }
+              else if (CHOICE_NODE == 'pclusternoaav2use1') {
+                env.NODE_PATH="/lustre/"
+                
+              }
+              else {
+                echo "no valid path!"
+          }
+        }
+         checkout([
+        $class: 'GitSCM', 
+        branches: [[name: '*/$BRANCH']], 
+        doGenerateSubmoduleConfigurations: false, 
+        extensions: [
+           [$class: 'CleanBeforeCheckout']],
+        submoduleCfg: [], 
+        userRemoteConfigs: [[url: '$GIT_URL' ]]
+    ])
+        sh '''
+        echo "Do stuff!"
+        '''
       }
     }
   }
