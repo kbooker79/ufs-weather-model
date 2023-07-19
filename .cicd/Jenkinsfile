@@ -14,11 +14,14 @@ pipeline {
           for (label in pullRequest.labels) {
             if ((label.matches("(.*)-aws"))) {
               env.CHOICE_NODE='pclusternoaav2use1' 
-            }  else if ((label.matches("(.*)-gcp"))) { 
+            }  
+            else if ((label.matches("(.*)-gcp"))) { 
               env.CHOICE_NODE='gclusternoaav2usc1' 
-            }  else if ((label.matches("(.*)-gcp"))) {
+            }  
+            else if ((label.matches("(.*)-gcp"))) {
               env.CHOICE_NODE='azclusternoaav2use1'
-            }  else { 
+            }  
+            else { 
               env.CHOICE_NODE = none
             }
           }
