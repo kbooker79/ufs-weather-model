@@ -13,7 +13,6 @@ pipeline {
         script {
           for (label in pullRequest.labels) {
             if ((label.matches("(.*)-BL"))) {
-              //println(label.matches("(.*)-BL")); 
               env.CREATE_BASELINES = true 
             } 
           } 
