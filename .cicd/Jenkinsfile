@@ -25,7 +25,22 @@ pipeline {
                env.CHOICE_NODE='none'
             }
           }
-          echo "Value of CHOICE_NODE is ${CHOICE_NODE}"
+          if (CHOICE_NODE == 'azclusternoaav2use1') {
+                echo "Starting up Parallelworks cluster ${CHOICE_NODE}...this might take 5-10 minutes...please be patient."
+//                build job: 'parallel-works-jenkins-client/start-cluster', parameters: [string(name: 'PW_CLUSTER_NAME', value: 'azclusternoaav2use1'), string(name: 'PW_CLUSTER_SSH_KEY', value: '~/.ssh/pw_id_rsa'), string(name: 'JAVA_VERSION', value: '11')]
+               
+            } 
+          else if (CHOICE_NODE == 'gclusternoaav2usc1') {
+                echo "Starting up Parallelworks cluster ${CHOICE_NODE}...this might take 5-10 minutes...please be patient."
+//                build job: 'parallel-works-jenkins-client/start-cluster', parameters: [string(name: 'PW_CLUSTER_NAME', value: 'gclusternoaav2usc1'), string(name: 'PW_CLUSTER_SSH_KEY', value: '~/.ssh/pw_id_rsa'), string(name: 'JAVA_VERSION', value: '11')]
+            }
+          else if (CHOICE_NODE == 'pclusternoaav2use1') {
+                 echo "Starting up Parallelworks cluster ${CHOICE_NODE}...this might take 5-10 minutes...please be patient."
+//                build job: 'parallel-works-jenkins-client/start-cluster', parameters: [string(name: 'PW_CLUSTER_NAME', value: 'pclusternoaav2use1'), string(name: 'PW_CLUSTER_SSH_KEY', value: '~/.ssh/pw_id_rsa'), string(name: 'JAVA_VERSION', value: '11')]
+            }
+          else {
+                echo "${CHOICE_NODE} is NOT a Parallelworks cluster, moving on..."
+            }
         }    
       }
     }
