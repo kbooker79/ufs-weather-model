@@ -88,7 +88,12 @@ pipeline {
         userRemoteConfigs: [[url: "${GIT_URL}" ]]
     ])
         sh '''
-        echo "Do stuff!"
+        if [[ "${CREATE_BASELINES}" = true ]] 
+        then
+           echo "I would have created baselines."
+        else
+           echo "I would have NOT created baselines."
+        fi
         '''
       }
     }
