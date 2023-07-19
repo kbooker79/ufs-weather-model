@@ -27,7 +27,7 @@ pipeline {
                 build job: 'parallel-works-jenkins-client/start-cluster', parameters: [string(name: 'PW_CLUSTER_NAME', value: 'azclusternoaav2use1'), string(name: 'PW_CLUSTER_SSH_KEY', value: '~/.ssh/pw_id_rsa'), string(name: 'JAVA_VERSION', value: '11')]
             }  
             else { 
-                env.CHOICE_NODE=$label
+                env.CHOICE_NODE=''
                 echo "${CHOICE_NODE} is NOT a valid label for a Parallelworks cluster, moving on..."
             }
           }
