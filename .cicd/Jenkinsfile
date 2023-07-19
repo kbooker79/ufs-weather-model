@@ -13,17 +13,19 @@ pipeline {
         script {
           for (label in pullRequest.labels) {
             if ((label.matches("(.*)-aws"))) {
-               println("aws")
+               env.CHOICE_NODE='pclusternoaav2use1'
             }  
             else if ((label.matches("(.*)-gcp"))) { 
-               println("gcp")
+               env.CHOICE_NODE='gclusternoaav2usc1'
             }  
             else if ((label.matches("(.*)-azure"))) {
-               println("azure")
+               env.CHOICE_NODE='azclusternoaav2use1'
             }  
             else { 
+               env.CHOICE_NODE='none'
             }
           }
+          echo "Value of CHOICE_NODE is ${CHOICE_NODE}"
         }    
       }
     }
