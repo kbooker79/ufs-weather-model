@@ -30,10 +30,10 @@ pipeline {
                 env.CHOICE_NODE=''
                 echo "${CHOICE_NODE} is NOT a valid label for a Parallelworks cluster, moving on..."
             }
-          }
-        }    
-      }
-    } 
+         }
+       }    
+    }
+  } 
   stage('Run Regression Tests script') {
         agent {
           label "${CHOICE_NODE}"
@@ -42,7 +42,7 @@ pipeline {
         GITHUB_SSH_KEY = credentials('ParallelworksGithubPrivateKey')
         ACCNR = 'epic'
         GIT_URL = 'https://github.com/kbooker79/ufs-weather-model/'
-        NODE_PATH = "/lustre/"
+        NODE_PATH = '/lustre/'
       }
       steps {
           script {
@@ -73,7 +73,7 @@ pipeline {
         fi
         '''
       }
-    }
+ }
   stage('Stop Parallelworks Cluster') {
        agent {
         label 'built-in'   
