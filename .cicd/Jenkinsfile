@@ -85,7 +85,7 @@ pipeline {
         extensions: [
            [$class: 'CleanBeforeCheckout']],
         submoduleCfg: [], 
-        userRemoteConfigs: [[url: '$GIT_URL' ]]
+        userRemoteConfigs: [[url: "${GIT_URL}" ]]
     ])
         sh '''
         echo "Do stuff!"
