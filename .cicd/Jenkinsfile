@@ -1,0 +1,112 @@
+pipeline {
+  agent none
+  parameters {
+    string(name: 'BRANCH', defaultValue: 'develop', description: '')
+  }
+  stages {
+    stage('Start Parallelworks Cluster') {
+       agent {
+        label 'built-in'   
+       }
+      steps {
+        script {
+          for (label in pullRequest.labels) {
+            if ((label.matches("(.*)-aws-(.*)"))) {
+                 env.CHOICE_NODE='pclusternoaav2use1'
+            }  
+            else if ((label.matches("(.*)-gcp-(.*)"))) { 
+                env.CHOICE_NODE='gclusternoaav2usc1'
+            }  
+            else if ((label.matches("(.*)-azure-(.*)"))) {
+                env.CHOICE_NODE='azclusternoaav2use1'
+            }  
+            else { 
+                env.CHOICE_NODE='none'
+            }
+         }
+            if (CHOICE_NODE == 'azclusternoaav2use1') {
+                echo "Starting up Parallelworks cluster ${CHOICE_NODE}...this might take 5-10 minutes...please be patient."
+                build job: 'parallel-works-jenkins-client/start-cluster', parameters: [string(name: 'PW_CLUSTER_NAME', value: 'azclusternoaav2use1'), string(name: 'PW_CLUSTER_SSH_KEY', value: '~/.ssh/pw_id_rsa'), string(name: 'JAVA_VERSION', value: '11')]
+               
+            } 
+             else if (CHOICE_NODE == 'gclusternoaav2usc1') {
+                echo "Starting up Parallelworks cluster ${CHOICE_NODE}...this might take 5-10 minutes...please be patient."
+                build job: 'parallel-works-jenkins-client/start-cluster', parameters: [string(name: 'PW_CLUSTER_NAME', value: 'gclusternoaav2usc1'), string(name: 'PW_CLUSTER_SSH_KEY', value: '~/.ssh/pw_id_rsa'), string(name: 'JAVA_VERSION', value: '11')]
+            }
+             else if (CHOICE_NODE == 'pclusternoaav2use1') {
+                 echo "Starting up Parallelworks cluster ${CHOICE_NODE}...this might take 5-10 minutes...please be patient."
+                build job: 'parallel-works-jenkins-client/start-cluster', parameters: [string(name: 'PW_CLUSTER_NAME', value: 'pclusternoaav2use1'), string(name: 'PW_CLUSTER_SSH_KEY', value: '~/.ssh/pw_id_rsa'), string(name: 'JAVA_VERSION', value: '11')]
+            }
+             else {
+                echo "${CHOICE_NODE} is NOT a Parallelworks cluster, moving on..."
+            }
+       }    
+    }
+  } 
+  stage('Run Regression Tests script') {
+        agent {
+          label "${CHOICE_NODE}"
+        }
+        environment {
+        GITHUB_SSH_KEY = credentials('ParallelworksGithubPrivateKey')
+        ACCNR = 'epic'
+        GIT_URL = 'https://github.com/kbooker79/ufs-weather-model/'
+        NODE_PATH = '/lustre/'
+      }
+      steps {
+          script {
+            for (label in pullRequest.labels) {
+            if ((label.matches("(.*)-BL"))) {
+               env.CREATE_BASELINES='true'
+            } 
+            else {
+               env.CREATE_BASELINES='false'
+            }
+          }
+        }
+         checkout([
+        $class: 'GitSCM', 
+        branches: [[name: '*/$BRANCH']], 
+        doGenerateSubmoduleConfigurations: false, 
+        extensions: [
+           [$class: 'CleanBeforeCheckout']],
+        submoduleCfg: [], 
+        userRemoteConfigs: [[url: "${GIT_URL}" ]]
+    ])
+        sh '''
+        if [[ "${CREATE_BASELINES}" = true ]] 
+        then
+           echo "I would have created baselines."
+        else
+           echo "I would have NOT created baselines."
+        fi
+        '''
+      }
+ }
+  stage('Stop Parallelworks Cluster') {
+       agent {
+        label 'built-in'   
+       }
+      steps {
+        script {
+          if (CHOICE_NODE == 'azclusternoaav2use1') {
+                echo "Shutting Down Parallelworks cluster ${CHOICE_NODE}."
+                build job: 'parallel-works-jenkins-client/stop-cluster', parameters: [string(name: 'PW_CLUSTER_NAME', value: 'azclusternoaav2use1')]
+               
+            } 
+          else if (CHOICE_NODE == 'gclusternoaav2usc1') {
+                echo "Shutting Down Parallelworks cluster ${CHOICE_NODE}."
+                build job: 'parallel-works-jenkins-client/stop-cluster', parameters: [string(name: 'PW_CLUSTER_NAME', value: 'gclusternoaav2usc1')]
+            }
+          else if (CHOICE_NODE == 'pclusternoaav2use1') {
+                echo "Shutting Down Parallelworks cluster ${CHOICE_NODE}."
+                build job: 'parallel-works-jenkins-client/stop-cluster', parameters: [string(name: 'PW_CLUSTER_NAME', value: 'pclusternoaav2use1')]
+            }
+          else {
+                echo "${CHOICE_NODE} is NOT a Parallelworks cluster, moving on..."
+            }
+        }    
+      }
+    }
+  }
+}
