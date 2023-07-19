@@ -20,6 +20,7 @@ pipeline {
           if [[ "${CREATE_BASELINES}" = true ]] 
           then
           echo "Creating baselines for regressions tests."
+          fi
           '''
         }    
       }
