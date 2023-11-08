@@ -127,7 +127,8 @@ pipeline {
            echo "Sending regression test logs to $GIT_URL"
            git config user.email "ecc.platform@noaa.gov"
            git config user.name "epic-cicd-jenkins"
-           git add tests/logs/RegressionTests_$machine.log
+           pwd
+           git add logs/RegressionTests_$machine.log
            git commit -m "[AutoRT] $machine Job Completed.\n\n\n on-behalf-of @ufs-community <ecc.platform@noaa.gov>"
            git push origin HEAD:$CHANGE_BRANCH > /dev/null 2>&1
            echo "Pushed logs to $GIT_URL $CHANGE_BRANCH"
