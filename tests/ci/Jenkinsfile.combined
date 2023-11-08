@@ -130,8 +130,8 @@ pipeline {
            pwd
            git add logs/RegressionTests_$machine.log
            git commit -m "[AutoRT] $machine Job Completed.\n\n\n on-behalf-of @ufs-community <ecc.platform@noaa.gov>"
-           git push origin HEAD:refs/remotes/origin/PR-$CHANGE_ID > /dev/null 2>&1
-           echo "Pushed logs to $GIT_URL refs/remotes/origin/PR-$CHANGE_ID"
+           git push origin HEAD:refs/heads/${branch_name} > /dev/null 2>&1
+           echo "Pushed logs to $GIT_URL refs/remotes/origin/${branch_name}"
         '''
       }
     }
