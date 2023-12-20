@@ -49,7 +49,7 @@ def generateStage(nodeLabel) {
 			    mkdir develop-${BL_DATE}
 			    ./adjust_permissions.sh orion develop-${BL_DATE}
 			    chgrp noaa-hpc develop-${BL_DATE}
-			    cd /work2/noaa/epic/role-epic/stmp/role-epic/FV3_RT
+			    cd /work2/noaa/epic/stmp/role-epic/stmp/role-epic/FV3_RT
 			    rsync -a REGRESSION_TEST/ ${DISKNM}/NEMSfv3gfs/develop-${BL_DATE}
                           elif [[ $machine =~ "Orion" ]]
                           then
