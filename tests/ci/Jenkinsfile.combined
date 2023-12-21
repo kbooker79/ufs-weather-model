@@ -73,7 +73,7 @@ def generateStage(nodeLabel) {
                             export DISKNM=/lustre/f2/pdata/ncep/role.epic/C5/RT
 			    cd ${DISKNM}/NEMSfv3gfs/
 			    mkdir develop-${BL_DATE}
-			    cd  /lustre/f2/scratch/role.epic/FV3_RT/REGRESSION_TEST
+			    cd  /lustre/f2/scratch/role.epic/FV3_RT
 			    rsync -a REGRESSION_TEST/ ${DISKNM}/NEMSfv3gfs/develop-${BL_DATE}
                           elif [[ $machine =~ "Hera" ]]
                           then
@@ -84,7 +84,7 @@ def generateStage(nodeLabel) {
                             export DISKNM=/scratch2/NAGAPE/epic/UFS-WM_RT
 			    cd ${DISKNM}/NEMSfv3gfs/
 			    mkdir develop-${BL_DATE}
-			    cd  /scratch1/NCEPDEV/stmp4/role.epic/FV3_RT/REGRESSION_TEST
+			    cd  /scratch1/NCEPDEV/stmp4/role.epic/FV3_RT
 			    rsync -a REGRESSION_TEST/ ${DISKNM}/NEMSfv3gfs/develop-${BL_DATE}
                           elif [[ $machine =~ "Derecho" ]]
                           then
@@ -95,7 +95,7 @@ def generateStage(nodeLabel) {
                             export DISKNM=/glade/derecho/scratch/epicufsrt/ufs-weather-model/RT/
 			    cd ${DISKNM}/NEMSfv3gfs/
 			    mkdir develop-${BL_DATE}
-			    cd  /glade/derecho/scratch/role.epic/FV3_RT/REGRESSION_TEST
+			    cd  /glade/derecho/scratch/role.epic/FV3_RT
 			    rsync -a REGRESSION_TEST/ ${DISKNM}/NEMSfv3gfs/develop-${BL_DATE}
                           else
                             echo "Creating baselines on $machine"
