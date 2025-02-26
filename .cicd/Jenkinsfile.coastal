@@ -43,6 +43,7 @@ def generateStage(nodeLabel) {
                           else
                             echo "Invalid $machine"
                           fi
+                       '''
                     }
                         
                   }
