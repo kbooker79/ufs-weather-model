@@ -30,9 +30,9 @@ def generateStage(nodeLabel) {
                           export PATH=$PATH:~/bin
                           echo "$machine working as expected."
                        '''
-                    else
+                    }
+                    else {
                        echo "${NODE_NAME} not supported yet."
-                    fi
                     }
                         
                   }
