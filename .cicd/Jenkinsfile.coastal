@@ -18,12 +18,12 @@ modifiedLabels = matchedNode.collect{"'" + it + "'"}
 baselineLabels = generateBaselineNode.collect{"'" + it + "'"} 
 def generateStage(nodeLabel) {
     return {
-        stage("Running on ${nodeLabel}-NOS") {
-            node(nodeLabel-NOS) {
+        stage("Running on ${nodeLabel}-nos") {
+            node(nodeLabel-nos) {
                cleanWs()
                script {
                  try {
-                    echo "Running on ${nodeLabel}-NOS"
+                    echo "Running on ${nodeLabel}-nos"
                     if (baselineLabels.contains(nodeLabel)) {
                        sh '''
                           export machine="${NODE_NAME}-NOS"
