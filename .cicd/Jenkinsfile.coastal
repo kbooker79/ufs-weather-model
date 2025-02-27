@@ -25,17 +25,10 @@ def generateStage(nodeLabel) {
                script {
                  try {
                     echo "Running on ${nodeLabel}"
-                    if (baselineLabels.contains(nodeLabel)) {
+                    if (baselineLabels.contains(nodeLabel)); then {
                        sh '''
-                       git submodule update --init --recursive
-                       cd tests
-		       pwd
-		       export BL_DATE=$(cat bl_date.conf | cut -d '=' -f2)
                        export machine=${NODE_NAME}
                        export PATH=$PATH:~/bin
-                       echo $CHANGE_ID
-                       export SSH_ORIGIN=$(curl --silent https://api.github.com/repos/ufs-community/ufs-weather-model/pulls/$CHANGE_ID | jq -r '.head.repo.ssh_url')
-                       export FORK_BRANCH=$(curl --silent https://api.github.com/repos/ufs-community/ufs-weather-model/pulls/$CHANGE_ID | jq -r '.head.ref')
                           if [[ $machine =~ "Hercules" ]]
                             echo "Running on $machine"
                             pwd
@@ -81,10 +74,9 @@ def generateStage(nodeLabel) {
                                 echo "Pipeline Completed Regression Tests on ${NODE_NAME}! status=$?"
                             fi
                           fi
-                          then
-                          else
+                       else
                             echo "$machine not supported yet."
-                          fi
+                       fi
                        '''
                     }
                         
