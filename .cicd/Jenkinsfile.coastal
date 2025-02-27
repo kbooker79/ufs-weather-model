@@ -15,25 +15,25 @@ for (label in pullRequest.labels) {
 }
 
 modifiedLabels = matchedNode.collect{"'" + it + "'"} 
-baselineLabels = generateBaselineNode.collect{"'" + it + "'"} 
+baselineLabels = generateBaselineNode.collect{"'" + it + "-nos" + ""'"} 
 def generateStage(nodeLabel) {
     return {
-        stage("Running on ${nodeLabel}-nos") {
-            node(nodeLabel-nos) {
+        stage("Running on ${nodeLabel}") {
+            node(nodeLabel) {
                cleanWs()
                script {
                  try {
-                    echo "Running on ${nodeLabel}-nos"
+                    echo "Running on ${nodeLabel}"
                     if (baselineLabels.contains(nodeLabel)) {
                        sh '''
-                          export machine="${NODE_NAME}-NOS"
+                          export machine="${NODE_NAME}"
                           export PATH=$PATH:~/bin
                           echo "Running as expected on $machine."
                           
                        '''
                     }
                     else {
-                       echo "${NODE_NAME}-NOS not supported yet."
+                       echo "${NODE_NAME} not supported yet."
                     }
                         
                   }
