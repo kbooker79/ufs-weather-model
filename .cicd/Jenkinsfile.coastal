@@ -25,7 +25,7 @@ def generateStage(nodeLabel) {
                script {
                  try {
                     echo "Running on ${nodeLabel}"
-                    if (baselineLabels.contains(nodeLabel)); then {
+                    if (baselineLabels.contains(nodeLabel)) {
                        sh '''
                        export machine=${NODE_NAME}
                        export PATH=$PATH:~/bin
