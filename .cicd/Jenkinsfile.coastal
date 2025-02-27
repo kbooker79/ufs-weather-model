@@ -9,13 +9,13 @@ for (label in pullRequest.labels) {
    }
 
    if ((label.matches(node.getLabelString()+"(.*)-RT"))) {
-     generateBaselineNode += (node.getLabelString()+"-nos") 
+     generateBaselineNode += node.getLabelString() 
    }
  }
 }
 
 modifiedLabels = matchedNode.collect{"'" + it + "'"} 
-baselineLabels = generateBaselineNode.collect{"'" + it + "'"}
+baselineLabels = generateBaselineNode.collect{"'" + it + "-nos'"}
 def generateStage(nodeLabel) {
     return {
         stage("Running on ${nodeLabel}") {
