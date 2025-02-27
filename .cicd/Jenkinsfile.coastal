@@ -15,7 +15,7 @@ for (label in pullRequest.labels) {
 }
 
 modifiedLabels = matchedNode.collect{"'" + it + "'"} 
-baselineLabels = generateBaselineNode.collect{"'" + it + ""'"} 
+baselineLabels = generateBaselineNode.collect{"'" + it + "'"}
 def generateStage(nodeLabel) {
     return {
         stage("Running on ${nodeLabel}") {
