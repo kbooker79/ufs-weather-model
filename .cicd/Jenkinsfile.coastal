@@ -8,7 +8,7 @@ for (label in pullRequest.labels) {
      matchedNode += node.getLabelString()
    }
 
-   if ((label.matches(node.getLabelString()+"(.*)-BL"))) {
+   if ((label.matches(node.getLabelString()+"(.*)-RT"))) {
      generateBaselineNode += node.getLabelString() 
    }
  }
