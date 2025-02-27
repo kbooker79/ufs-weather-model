@@ -74,10 +74,10 @@ def generateStage(nodeLabel) {
                                 echo "Pipeline Completed Regression Tests on ${NODE_NAME}! status=$?"
                             fi
                           fi
-                       else
-                            echo "$machine not supported yet."
-                       fi
                        '''
+                     else
+                          echo "$machine not supported yet."
+                     fi
                     }
                         
                   }
