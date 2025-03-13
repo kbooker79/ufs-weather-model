@@ -35,7 +35,7 @@ def generateStage(nodeLabel) {
                           [[ -e ufs-weather-model ]] && rm -rf ufs-weather-model
                           ls -al
                           export workspace=.
-                          [[ -d .git/ ]] || git clone -b ${CHANGE_BRANCH} --quiet ${CHANGE_FORK} ${workspace}
+                          [[ -d .git/ ]] || git clone -b ${CHANGE_BRANCH} --quiet ${CHANGE_URL}/${CHANGE_FORK}/${GIT_REPO_NAME} ${workspace}
                           date | tee date.txt
                           [[ -d ufs-weather-model/ ]] && cd ufs-weather-model
                           ls -al
