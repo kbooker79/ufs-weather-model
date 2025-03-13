@@ -5,7 +5,6 @@ for (label in pullRequest.labels) {
 
    if ((label.matches(node.getLabelString()+"-(.*)"))) {
      matchedNode += node.getLabelString()
-     print matchedNode
    }
  }
 }
@@ -19,7 +18,7 @@ def generateStage(nodeLabel) {
                script {
                  try {
                     echo "Running on ${nodeLabel}"
-                    if (baselineLabels.contains(nodeLabel)) {
+                    if (modifiedLabels.contains(nodeLabel)) {
                        sh '''
                           export machine="${NODE_NAME}"
                           export PATH=$PATH:~/bin
