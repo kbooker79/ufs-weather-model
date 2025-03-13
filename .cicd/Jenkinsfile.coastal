@@ -19,6 +19,20 @@ def generateStage(nodeLabel) {
                  try {
                     echo "Running on ${nodeLabel}"
                     if (modifiedLabels.contains(nodeLabel)) {
+                       checkout([$class: 'GitSCM',
+                                  branches: [[name: "${BRANCH}"]],
+                                  doGenerateSubmoduleConfigurations: false,
+                                  extensions: [[$class: 'GitLFSPull'],
+                                                [$class: 'SubmoduleOption',
+                                                disableSubmodules: false,
+                                                parentCredentials: false,
+                                                recursiveSubmodules: true,
+                                                reference: '',
+                                                trackingSubmodules: false],
+                                                [$class: 'CleanBeforeCheckout'], 
+                                                [$class: 'CleanCheckout']],
+                                  submoduleCfg: [],
+                                  userRemoteConfigs: [[url: 'https://github.com/oceanmodeling/ufs-weather-model.git']]]) 
                        sh '''
                           export machine="${NODE_NAME}"
                           export PATH=$PATH:~/bin
