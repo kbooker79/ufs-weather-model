@@ -4,7 +4,7 @@ for (label in pullRequest.labels) {
    node -> node.getLabelString().contains(label) ? node.name : null
 
    if ((label.matches(node.getLabelString()+"-nos(.*)"))) {
-     matchedNode += node.getLabelString()
+     matchedNode += node.getLabelString()+"-nos"
    }
  }
 }
