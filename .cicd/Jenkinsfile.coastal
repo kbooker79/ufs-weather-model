@@ -32,6 +32,8 @@ def generateStage(nodeLabel) {
 
                           GIT_OWNER=$(echo $GIT_URL | cut -d '/' -f4)
                           GIT_REPO_NAME=$(echo $GIT_URL | cut -d '/' -f5 | cut -d '.' -f1) 
+                          
+                          echo $CHANGE_ID
 
                           echo "Testing concluded...removing labels for $machine from $GIT_URL"
                           curl --silent -X DELETE -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer ${GITHUB_TOKEN}"  https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels/$machine-RT
@@ -61,7 +63,7 @@ pipeline {
         AWS_PROD_ACCOUNT_ID = credentials('AWS_PROD_ACCOUNT_ID')
         AWS_PROD_SNS_TOPIC = credentials('AWS_PROD_SNS_TOPIC')
         GITHUB_TOKEN = credentials('GithubJenkinsNew')
-        GIT_URL = 'https://github.com/ufs-community/ufs-weather-model.git'
+        GIT_URL = 'https://github.com/oceanmodeling/ufs-weather-model.git'
     }
     stages {
         stage('Run Regression Tests in Parallel') {
@@ -76,9 +78,11 @@ pipeline {
          success {
              node('built-in') {
                 echo 'This will run only if successful.'
+/*
                 sh '''
-                 // aws sns publish --topic-arn "arn:aws:sns:us-east-1:${AWS_PROD_ACCOUNT_ID}:${AWS_PROD_SNS_TOPIC}" --region us-east-1 --message '{"version":"1.0","source":"custom","content":{"description":":sunny: Jenkins build *'"$JOB_NAME"' '"$BUILD_NUMBER"'* with *PR-'"$CHANGE_ID"'*  *succeeded*"}}'
+                  aws sns publish --topic-arn "arn:aws:sns:us-east-1:${AWS_PROD_ACCOUNT_ID}:${AWS_PROD_SNS_TOPIC}" --region us-east-1 --message '{"version":"1.0","source":"custom","content":{"description":":sunny: Jenkins build *'"$JOB_NAME"' '"$BUILD_NUMBER"'* with *PR-'"$CHANGE_ID"'*  *succeeded*"}}'
                '''
+*/
              }
          }
          failure {
