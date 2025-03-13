@@ -63,15 +63,9 @@ def generateStage(nodeLabel) {
                             
                             # run regression test
                             export ACCNR=nosofs
-                            if [[ ${WM_REGRESSION_TESTS} == true ]] ; then
-                                if [[ "${RT_TEST_NAME}" != "NONE" ]] ; then
-                                  echo "Running ${RT_TEST_NAME} test with ${RT_COMPILER} ..."
-                                  ./rt.sh -l rt_coastal.conf -a $ACCNR -k -n "${RT_TEST_NAME} ${RT_COMPILER}"
-                                else
-                                  ./rt.sh -l rt_coastal.conf -a $ACCNR
-                                fi
+                            echo "Running regression tests..."
+                            ./rt.sh -l rt_coastal.conf -a $ACCNR
                                 echo "Pipeline Completed Regression Tests on ${NODE_NAME}! status=$?"
-                            fi
                           fi
          
                           echo "Testing concluded...removing labels for $machine from $GIT_URL"
