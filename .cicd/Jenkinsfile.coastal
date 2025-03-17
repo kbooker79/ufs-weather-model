@@ -16,6 +16,7 @@ def generateStage(nodeLabel) {
             node(nodeLabel) {
                cleanWs()
                script {
+                 try {
                     echo "Running on ${nodeLabel}"
                     if (modifiedLabels.contains(nodeLabel)) {
                        sh '''
@@ -65,6 +66,14 @@ def generateStage(nodeLabel) {
                             echo "Running regression tests..."
                             ./rt.sh -l rt_coastal.conf -a $ACCNR
                                 echo "Pipeline Completed Regression Tests on ${NODE_NAME}! status=$?"
+                             RESULTS=`grep 'Result:' logs/RegressionTests_$ufs_machine.log | awk '{print $2}'` 
+                             if [[ $RESULTS == "FAILURE" ]] ; then
+                                echo "Regression tests failed on ${NODE_NAME}!"
+                                exit 1
+                             else
+                                echo "Regression tests passed on ${NODE_NAME}!" 
+                             fi
+                             
                           fi
          
                           echo "Testing concluded...removing labels for $machine from $GIT_URL"
@@ -75,6 +84,9 @@ def generateStage(nodeLabel) {
                        echo "${NODE_NAME} not supported yet."
                     }
                         
+                  }
+                  catch(err) {
+                  }
                 }
               }
            }
