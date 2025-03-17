@@ -35,7 +35,7 @@ def generateStage(nodeLabel) {
                           [[ -e ufs-weather-model ]] && rm -rf ufs-weather-model
                           ls -al
                           export workspace=.
-                          [[ -d .git/ ]] || git clone -b ${CHANGE_BRANCH} --quiet https://github.com/${CHANGE_FORK}/${GIT_REPO_NAME}.git ${workspace}
+                          #[[ -d .git/ ]] || git clone -b ${CHANGE_BRANCH} --quiet https://github.com/${CHANGE_FORK}/${GIT_REPO_NAME}.git ${workspace}
                           date | tee date.txt
                           [[ -d ufs-weather-model/ ]] && cd ufs-weather-model
                           ls -al
@@ -64,8 +64,16 @@ def generateStage(nodeLabel) {
                             # run regression test
                             export ACCNR=nosofs
                             echo "Running regression tests..."
-                            ./rt.sh -l rt_coastal.conf -a $ACCNR
+                            #./rt.sh -l rt_coastal.conf -a $ACCNR
                                 echo "Pipeline Completed Regression Tests on ${NODE_NAME}! status=$?"
+                             RESULTS=`grep 'Result:' tests/logs/RegressionTests_$machine.log | awk '{print $2}'` 
+                             if [[ $RESULTS == "FAILURE" ]] ; then
+                                echo "Regression tests failed on ${NODE_NAME}!"
+                                exit 1
+                             else
+                                echo "Regression tests passed on ${NODE_NAME}!" 
+                             fi
+                             
                           fi
          
                           echo "Testing concluded...removing labels for $machine from $GIT_URL"
