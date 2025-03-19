@@ -63,8 +63,7 @@ def generateStage(nodeLabel) {
                             # run regression test
                             export ACCNR=nosofs
                             echo "Running regression tests..."
-                            #./rt.sh -l rt_coastal.conf -a $ACCNR
-                            ./myrt.sh 
+                            ./rt.sh -l rt_coastal.conf -a $ACCNR
                                 echo "Pipeline Completed Regression Tests on ${NODE_NAME}! status=$?"
                              
                           fi
