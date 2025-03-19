@@ -16,7 +16,6 @@ def generateStage(nodeLabel) {
             node(nodeLabel) {
                cleanWs()
                script {
-                 try {
                     echo "Running on ${nodeLabel}"
                     if (modifiedLabels.contains(nodeLabel)) {
                        sh '''
@@ -24,62 +23,21 @@ def generateStage(nodeLabel) {
                           export PATH=$PATH:~/bin
                           echo "Running as expected on $machine."
 
-                          GIT_OWNER=$(echo $GIT_URL | cut -d '/' -f4)
-                          GIT_REPO_NAME=$(echo $GIT_URL | cut -d '/' -f5 | cut -d '.' -f1) 
-                          
-                          echo $CHANGE_ID
-
-                          export ufs_machine=hercules
-                          pwd
-                          echo hostname=$(hostname)
-                          [[ -e ufs-weather-model ]] && rm -rf ufs-weather-model
-                          ls -al
-                          export workspace=.
-                          [[ -d .git/ ]] || git clone -b ${CHANGE_BRANCH} --quiet https://github.com/${CHANGE_FORK}/${GIT_REPO_NAME}.git ${workspace}
-                          date | tee date.txt
-                          [[ -d ufs-weather-model/ ]] && cd ufs-weather-model
-                          ls -al
-                          if [[ -d .git/ ]] ; then
-                            git branch
-                            git status
-                            git log -1
-                            
-                            # load modules
-                            set +x
-                            module use $PWD/modulefiles
-                            module load ufs_${ufs_machine}.intel
-                            module list
-
-                            # set custom DISKNM for the platform
-                            cd tests
-                            disknm_old=`awk '/hercules/{f=1} f && /DISKNM/ {print; exit}' rt.sh`
-                            disknm_new='    DISKNM="/work2/noaa/nems/tufuk/RT"'
-                            sed -i "s:${disknm_old}:${disknm_new}:g" rt.sh
-                            
-                            # set custom DPREFIX for the platform
-                            dprefix_old=`awk '/hercules/{f=1} f && /dprefix/ {print; exit}' rt.sh`
-                            dprefix_new='    dprefix="/work2/noaa/nosofs/UFS-Coastal-Jenkins-RT"'
-                            sed -i "s:${dprefix_old}:${dprefix_new}:g" rt.sh
-                            
+                          git clone -b ${CHANGE_BRANCH} --quiet https://github.com/${CHANGE_FORK}/${GIT_REPO_NAME}.git ${workspace}
+                          cd ${workspace}/tests
                             # run regression test
                             export ACCNR=nosofs
                             echo "Running regression tests..."
-                            #./rt.sh -l rt_coastal.conf -a $ACCNR
                             ./myrt.sh 
                                 echo "Pipeline Completed Regression Tests on ${NODE_NAME}! status=$?"
                              
                           fi
          
-                          echo "Testing concluded...removing labels for $machine from $GIT_URL"
-                          curl --silent -X DELETE -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer ${GITHUB_TOKEN}"  https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels/$machine-RT
                        '''
-                    }
                     else {
                        echo "${NODE_NAME} not supported yet."
                     }
                         
-                  }
-                  catch(err) {
                   }
                 }
               }
