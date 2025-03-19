@@ -31,7 +31,6 @@ def generateStage(nodeLabel) {
                             ./myrt.sh 
                                 echo "Pipeline Completed Regression Tests on ${NODE_NAME}! status=$?"
                              
-                          fi
          
                        '''
                     else {
