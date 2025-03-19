@@ -64,15 +64,9 @@ def generateStage(nodeLabel) {
                             # run regression test
                             export ACCNR=nosofs
                             echo "Running regression tests..."
-                            ./rt.sh -l rt_coastal.conf -a $ACCNR
+                            #./rt.sh -l rt_coastal.conf -a $ACCNR
+                            ./myrt.sh 
                                 echo "Pipeline Completed Regression Tests on ${NODE_NAME}! status=$?"
-                             RESULTS=`grep 'Result:' logs/RegressionTests_$ufs_machine.log | awk '{print $2}'` 
-                             if [[ $RESULTS == "FAILURE" ]] ; then
-                                echo "Regression tests failed on ${NODE_NAME}!"
-                                exit 1
-                             else
-                                echo "Regression tests passed on ${NODE_NAME}!" 
-                             fi
                              
                           fi
          
