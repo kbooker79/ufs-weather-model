@@ -33,6 +33,7 @@ def generateStage(nodeLabel) {
                              
          
                        '''
+                    }
                     else {
                        echo "${NODE_NAME} not supported yet."
                     }
