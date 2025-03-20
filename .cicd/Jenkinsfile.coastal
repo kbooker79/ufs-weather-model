@@ -104,7 +104,7 @@ pipeline {
         AWS_PROD_SNS_TOPIC = credentials('AWS_PROD_SNS_TOPIC')
         GITHUB_TOKEN = credentials('GithubJenkinsNew')
         GIT_URL = 'https://github.com/oceanmodeling/ufs-weather-model.git'
-        NODE_LABEL = ${NODE_LABELS}
+        NODE_LABEL = "${NODE_LABELS}"
     }
     stages {
         stage('Run Regression Tests in Parallel') {
