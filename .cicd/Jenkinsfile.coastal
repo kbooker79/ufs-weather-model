@@ -72,14 +72,6 @@ def generateStage(nodeLabel) {
                           curl --silent -X DELETE -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer ${GITHUB_TOKEN}"  https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels/$machine-RT
 
                           cd ${WORKSPACE}/tests && tar --create --gzip --verbose --dereference --file "${ufs_machine}.tgz" ${WORKSPACE}/tests/logs/*.log
-               
-
-                          RESULTS=`grep 'Result:' logs/RegressionTests_$ufs_machine.log | awk '{print $2}'` 
-                             if [[ $RESULTS == "FAILURE" ]] ; then
-                                echo "Regression tests failed on ${NODE_NAME}!"
-                                exit 1
-
-                            fi
 
                        '''
                     }
@@ -93,6 +85,16 @@ def generateStage(nodeLabel) {
                script {
                  echo "Running on ${nodeLabel}"
                  s3Upload consoleLogLevel: 'INFO', dontSetBuildResultOnFailure: false, dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: 'noaa-epic-prod-jenkins-artifacts', excludedFile: '', flatten: false, gzipFiles: false, keepForever: false, managedArtifacts: true, noUploadOnFailure: false, selectedRegion: 'us-east-1', showDirectlyInBrowser: false, sourceFile: "**/*tgz*", storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false]], pluginFailureResultConstraint: 'FAILURE', profileName: 'main', userMetadata: []
+                 sh '''
+                          cd tests
+                          RESULTS=`grep 'Result:' logs/RegressionTests_$ufs_machine.log | awk '{print $2}'` 
+                             if [[ $RESULTS == "FAILURE" ]] ; then
+                                echo "Regression tests failed on ${NODE_NAME}!"
+                                exit 1
+
+                            fi
+
+                 '''
                }
 
             }
