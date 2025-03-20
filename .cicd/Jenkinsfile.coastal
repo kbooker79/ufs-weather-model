@@ -89,14 +89,6 @@ def generateStage(nodeLabel) {
                 }
               }
            }
-           post {
-             always {
-             node(nodeLabel) {
-               s3Upload consoleLogLevel: 'INFO', dontSetBuildResultOnFailure: false, dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: 'noaa-epic-prod-jenkins-artifacts/NOS', excludedFile: '', flatten: false, gzipFiles: false, keepForever: false, managedArtifacts: true, noUploadOnFailure: false, selectedRegion: 'us-east-1', showDirectlyInBrowser: false, sourceFile: "**/*tgz*", storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false]], pluginFailureResultConstraint: 'FAILURE', profileName: 'main', userMetadata: []
-             }
-         }
-
-           }
        }
 }
 
@@ -112,7 +104,6 @@ pipeline {
         AWS_PROD_SNS_TOPIC = credentials('AWS_PROD_SNS_TOPIC')
         GITHUB_TOKEN = credentials('GithubJenkinsNew')
         GIT_URL = 'https://github.com/oceanmodeling/ufs-weather-model.git'
-        NODE_LABEL = "${NODE_LABELS}"
     }
     stages {
         stage('Run Regression Tests in Parallel') {
@@ -124,6 +115,11 @@ pipeline {
         }       
     }   
         post {
+         always {
+             node(it) {
+               s3Upload consoleLogLevel: 'INFO', dontSetBuildResultOnFailure: false, dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: 'noaa-epic-prod-jenkins-artifacts/NOS', excludedFile: '', flatten: false, gzipFiles: false, keepForever: false, managedArtifacts: true, noUploadOnFailure: false, selectedRegion: 'us-east-1', showDirectlyInBrowser: false, sourceFile: "**/*tgz*", storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false]], pluginFailureResultConstraint: 'FAILURE', profileName: 'main', userMetadata: []
+             }
+         }
          success {
              node('built-in') {
                 echo 'This will run only if successful.'
