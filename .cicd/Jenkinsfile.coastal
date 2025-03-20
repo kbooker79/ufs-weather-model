@@ -12,7 +12,6 @@ for (label in pullRequest.labels) {
 modifiedLabels = matchedNode.collect{"'" + it + "'"} 
 def generateStage(nodeLabel) {
     return {
-      stages{
         stage("Running on ${nodeLabel}") {
             node(nodeLabel) {
                cleanWs()
@@ -34,7 +33,6 @@ def generateStage(nodeLabel) {
            }
           stage("Running stage 2 on ${nodeLabel}") {
          }
-       }
     }
 }
 
