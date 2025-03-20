@@ -71,7 +71,7 @@ def generateStage(nodeLabel) {
                           echo "Testing concluded...removing labels for $machine from $GIT_URL"
                           curl --silent -X DELETE -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer ${GITHUB_TOKEN}"  https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels/$machine-RT
 
-                          cd ${WORKSPACE}/tests && tar --create --gzip --verbose --dereference --file "${ufs_machine_name}.tgz" ${WORKSPACE}/tests/logs/*.log
+                          cd ${WORKSPACE}/tests && tar --create --gzip --verbose --dereference --file "${ufs_machine}.tgz" ${WORKSPACE}/tests/logs/*.log
                
 
                           RESULTS=`grep 'Result:' logs/RegressionTests_$ufs_machine.log | awk '{print $2}'` 
@@ -116,7 +116,7 @@ pipeline {
     }   
         post {
          always {
-             node('hercules-nos') {
+             node("${nodeLabel}") {
                s3Upload consoleLogLevel: 'INFO', dontSetBuildResultOnFailure: false, dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: 'noaa-epic-prod-jenkins-artifacts/NOS', excludedFile: '', flatten: false, gzipFiles: false, keepForever: false, managedArtifacts: true, noUploadOnFailure: false, selectedRegion: 'us-east-1', showDirectlyInBrowser: false, sourceFile: "**/*tgz*", storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false]], pluginFailureResultConstraint: 'FAILURE', profileName: 'main', userMetadata: []
              }
          }
