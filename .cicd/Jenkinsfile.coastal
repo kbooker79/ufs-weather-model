@@ -73,7 +73,6 @@ def generateStage(nodeLabel) {
 
                           cd ${WORKSPACE}/tests && tar --create --gzip --verbose --dereference --file "${ufs_machine}.tgz" ${WORKSPACE}/tests/logs/*.log
                
-                          s3Upload consoleLogLevel: 'INFO', dontSetBuildResultOnFailure: false, dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: 'noaa-epic-prod-jenkins-artifacts', excludedFile: '', flatten: false, gzipFiles: false, keepForever: false, managedArtifacts: true, noUploadOnFailure: false, selectedRegion: 'us-east-1', showDirectlyInBrowser: false, sourceFile: "**/*tgz*", storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false]], pluginFailureResultConstraint: 'FAILURE', profileName: 'main', userMetadata: []
 
                           RESULTS=`grep 'Result:' logs/RegressionTests_$ufs_machine.log | awk '{print $2}'` 
                              if [[ $RESULTS == "FAILURE" ]] ; then
@@ -83,6 +82,7 @@ def generateStage(nodeLabel) {
                             fi
 
                        '''
+                          s3Upload consoleLogLevel: 'INFO', dontSetBuildResultOnFailure: false, dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: 'noaa-epic-prod-jenkins-artifacts', excludedFile: '', flatten: false, gzipFiles: false, keepForever: false, managedArtifacts: true, noUploadOnFailure: false, selectedRegion: 'us-east-1', showDirectlyInBrowser: false, sourceFile: "**/*tgz*", storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false]], pluginFailureResultConstraint: 'FAILURE', profileName: 'main', userMetadata: []
                     }
                     else {
                        echo "${NODE_NAME} not supported yet."
