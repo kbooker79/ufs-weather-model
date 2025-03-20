@@ -32,6 +32,9 @@ def generateStage(nodeLabel) {
               }
            }
           stage("Running stage 2 on ${nodeLabel}") {
+            node(nodeLabel) {
+            
+            }
          }
     }
 }
