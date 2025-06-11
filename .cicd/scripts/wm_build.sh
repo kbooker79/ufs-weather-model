@@ -51,8 +51,7 @@ echo "ACCNR=${ACCNR}"
 export LMOD_SH_DBG_ON=0
 echo "LMOD_VERSION=${LMOD_VERSION}"
 if [[ ${UFS_PLATFORM} = gaea ]] ; then
-	source /gpfs/f5/epic/scratch/role.epic/contrib/Lmod_init_C5.sh
-	echo "LMOD_VERSION=${LMOD_VERSION}"
+       export ACCNR=bil-fire8
 fi
 set +x
 module use ${PWD}/modulefiles >/dev/null 2>&1

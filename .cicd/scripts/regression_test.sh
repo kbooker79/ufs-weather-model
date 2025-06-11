@@ -109,6 +109,7 @@ function regression_test() {
 		elif [[ ${machine} =~ "Gaea" ]]
 		then
 		    echo "Running regression tests on ${machine}"
+                    export ACCNR=bil-fire8
 		    ./rt.sh -a "${ACCNR}" "${workflow}" "${opt}" "${suite}" | tee "${WORKSPACE}/tests/logs/RT-run-${machine}.log"
 		    status=${PIPESTATUS[0]}
 		    unset LD_LIBRARY_PATH

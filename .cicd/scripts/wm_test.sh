@@ -79,10 +79,6 @@ if [[ ${WM_REGRESSION_TESTS} = true ]] ; then
 		git submodule update --init --recursive
 	fi
 
-	if [[ ${UFS_PLATFORM} = gaea ]] ; then
-		source /gpfs/f5/epic/scratch/role.epic/contrib/Lmod_init_C5.sh
-		echo "LMOD_VERSION=${LMOD_VERSION}"
-	fi
 
 	module use ${PWD}/modulefiles >/dev/null 2>&1
 	module load ufs_${machine_id}.${UFS_COMPILER} || true
