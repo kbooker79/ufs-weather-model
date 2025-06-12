@@ -65,22 +65,21 @@ def generateStage(nodeLabel) {
                             sh "WM_CREATE_BASELINE=true "  + 'bash --login "${WORKSPACE}/.cicd/scripts/wm_test.sh"'
                         }
                         else {
-                            sh "WM_CREATE_BASELINE=false " + "echo 'I would have ran the tests!'"
+                            sh "WM_CREATE_BASELINE=false " + "'echo I would have ran the tests!'"
                         }
 			s3Upload consoleLogLevel: 'INFO', dontSetBuildResultOnFailure: false, dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: 'noaa-epic-prod-jenkins-artifacts', excludedFile: '', flatten: false, gzipFiles: false, keepForever: false, managedArtifacts: true, noUploadOnFailure: false, selectedRegion: 'us-east-1', showDirectlyInBrowser: false, sourceFile: "wm_test_results-*-*.txt", storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false]], pluginFailureResultConstraint: 'FAILURE', profileName: 'main', userMetadata: []
                     }
                     catch(err) {
                         sh '''
                             export machine=${NODE_NAME}
-                            export machine_label=$(echo $machine | awk '{print tolower($0)}')
                             export CHANGE_ID=${CHANGE_ID}
                             GIT_OWNER=$(echo $GIT_URL | cut -d '/' -f4)
                             GIT_REPO_NAME=$(echo $GIT_URL | cut -d '/' -f5 | cut -d '.' -f1)
 			    set +x
 
                             echo "Testing concluded...removing labels for $machine from $GIT_URL"
-                            echo "https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels/{$machine_label-RT,$machine_label-BL}"
-                            curl --silent -X DELETE -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer ${GITHUB_TOKEN}"  https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels/{$machine_label-RT,$machine_label-BL}
+                            echo "https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels/{$machine-RT,$machine-BL}"
+                            curl --silent -X DELETE -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer ${GITHUB_TOKEN}"  https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels/{$machine-RT,$machine-BL}
                         '''
                         currentBuild.result = 'FAILURE'
                     }
@@ -126,15 +125,14 @@ def generateStage(nodeLabel) {
                     }
 			sh '''
 			    export machine=${NODE_NAME}
-                            export machine_label=$(echo $machine | awk '{print tolower($0)}')
 			    export CHANGE_ID=${CHANGE_ID}
 			    GIT_OWNER=$(echo $GIT_URL | cut -d '/' -f4)
 			    GIT_REPO_NAME=$(echo $GIT_URL | cut -d '/' -f5 | cut -d '.' -f1)
 			    set +x
 
 			    echo "Testing concluded...removing label ${label} for ${machine} from ${GIT_URL}"
-			    echo "https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels/${machine_label}-${label}"
-			    curl --silent -X DELETE -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer ${GITHUB_TOKEN}"  https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels/{$machine_label-RT,$machine_label-BL}
+			    echo "https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels/${machine}-${label}"
+			    curl --silent -X DELETE -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer ${GITHUB_TOKEN}"  https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels/{$machine-RT,$machine-BL}
 			'''
                 }
               }
