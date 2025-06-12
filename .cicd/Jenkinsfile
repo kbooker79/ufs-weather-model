@@ -65,7 +65,7 @@ def generateStage(nodeLabel) {
                             sh "WM_CREATE_BASELINE=true "  + 'bash --login "${WORKSPACE}/.cicd/scripts/wm_test.sh"'
                         }
                         else {
-                            sh "WM_CREATE_BASELINE=false " + "echo I would have ran the tests"
+                            sh "WM_CREATE_BASELINE=false " + 'bash --login "${WORKSPACE}/.cicd/scripts/wm_test.sh"' 
                         }
 			s3Upload consoleLogLevel: 'INFO', dontSetBuildResultOnFailure: false, dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: 'noaa-epic-prod-jenkins-artifacts', excludedFile: '', flatten: false, gzipFiles: false, keepForever: false, managedArtifacts: true, noUploadOnFailure: false, selectedRegion: 'us-east-1', showDirectlyInBrowser: false, sourceFile: "wm_test_results-*-*.txt", storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false]], pluginFailureResultConstraint: 'FAILURE', profileName: 'main', userMetadata: []
                     }
