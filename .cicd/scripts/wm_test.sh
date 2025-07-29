@@ -135,7 +135,7 @@ if [[ ${WM_REGRESSION_TESTS} = true ]] ; then
 	cd ${workspace}
 	find ${workspace}/tests/logs -ls
         ###Fail case check if no test logs were completed move old file back.
-	[[ ! -f tests/logs/RegressionTests_${UFS_PLATFORM}.log ]] && [[ -f tests/logs/RegressionTests_${UFS_PLATFORM}.log.orig ]] 
+	if [[ ! -f "tests/logs/RegressionTests_${UFS_PLATFORM}.log" && -f "tests/logs/RegressionTests_${UFS_PLATFORM}.log.orig" ]];then 
            mv tests/logs/RegressionTests_${UFS_PLATFORM}.log.orig tests/logs/RegressionTests_${UFS_PLATFORM}.log
         fi
 
