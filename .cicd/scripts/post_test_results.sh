@@ -14,6 +14,9 @@ export ACCNR=epic
 
 export account="-a ${ACCNR}"
 
+export status=$?
+echo $status
+
 which jq
 
 set -eu
@@ -48,7 +51,7 @@ function post_test() {
 	git status
         
         ##Check regression test logs results 
-        if grep -q "Result: SUCCESS" ${UFS_MODEL_DIR}/tests/logs/RegressionTests_${machine,,}.log; then
+        if [ grep -q "Result: SUCCESS" ${UFS_MODEL_DIR}/tests/logs/RegressionTests_${machine,,}.log] && [${status} == 0 ]; then
            git commit -m "[AutoRT] ${machine} Job Completed Successfully.\n\n\n on-behalf-of @ufs-community <ecc.platform@noaa.gov>"
         else
            git commit -m "[AutoRT] ${machine} Job Failed! \n\n\n on-behalf-of @ufs-community <ecc.platform@noaa.gov>"
