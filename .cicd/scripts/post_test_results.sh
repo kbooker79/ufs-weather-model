@@ -46,7 +46,13 @@ function post_test() {
 
 	git add tests/logs/RegressionTests_${machine,,}.log
 	git status
-	git commit -m "[AutoRT] ${machine} Job Completed.\n\n\n on-behalf-of @ufs-community <ecc.platform@noaa.gov>"
+        
+        ##Check regression test logs results 
+        if grep -q "Result: SUCCESS" tests/logs/RegressionTests_${machine,,}.log; then
+           git commit -m "[AutoRT] ${machine} Job Completed Successfully.\n\n\n on-behalf-of @ufs-community <ecc.platform@noaa.gov>"
+        else
+           git commit -m "[AutoRT] ${machine} Job Failed! \n\n\n on-behalf-of @ufs-community <ecc.platform@noaa.gov>"
+        fi
 
 	SSH_ORIGIN=$(curl --silent "https://api.github.com/repos/ufs-community/ufs-weather-model/pulls/${CHANGE_ID}" | jq -r '.head.repo.ssh_url')
 	git remote -v | grep -w sshorigin > /dev/null 2>&1 && git remote remove sshorigin > /dev/null 2>&1
