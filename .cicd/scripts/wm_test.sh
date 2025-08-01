@@ -139,7 +139,7 @@ if [[ ${WM_REGRESSION_TESTS} = true ]] ; then
            mv tests/logs/RegressionTests_${UFS_PLATFORM}.log.orig tests/logs/RegressionTests_${UFS_PLATFORM}.log
         fi
 
-	echo "Pipeline Reqression Tests on ${UFS_PLATFORM} complete. status=${status}"
+	echo "Pipeline Reqression Tests on ${UFS_PLATFORM} complete. status=${status}" | tee ${workspace}/${UFS_PLATFORM}-status
 else
 	echo "Pipeline Regression Tests on ${UFS_PLATFORM} (${machine}) skipped."
 	echo "ExperimentName: null" > ${workspace}/wm_test_results-${UFS_PLATFORM}-${UFS_COMPILER}.txt
