@@ -51,7 +51,7 @@ function post_test() {
         if grep -q "Result: SUCCESS" ${UFS_MODEL_DIR}/tests/logs/RegressionTests_${machine,,}.log && grep -q "status=0" ${UFS_MODEL_DIR}/tests/logs/${machine,,}-status; then
            git commit -m "[AutoRT] ${machine} Job Completed Successfully.\n\n\n on-behalf-of @ufs-community <ecc.platform@noaa.gov>"
         else
-           git commit -m "[AutoRT] ${machine} Job Failed! \n\n\n on-behalf-of @ufs-community <ecc.platform@noaa.gov>"
+           git commit --allow-empty -m "[AutoRT] ${machine} Job Failed! \n\n\n on-behalf-of @ufs-community <ecc.platform@noaa.gov>"
         fi
 
 	SSH_ORIGIN=$(curl --silent "https://api.github.com/repos/ufs-community/ufs-weather-model/pulls/${CHANGE_ID}" | jq -r '.head.repo.ssh_url')
