@@ -15,7 +15,7 @@ get_shas () {
     git fetch -q upstream $branch
     common=$(git merge-base $base_sha @)
     echo $common $base_sha $workspace
-    if [[ $common != $base_sha ]]; then
+    if [[ "$common" != "$base_sha" ]]; then
         printf "%s\n\n" "** $workspace **NOT** up to date"
         printf "$common is not equal to $base_sha"
         flag_sync=false
