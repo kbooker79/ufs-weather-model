@@ -105,6 +105,7 @@ for submodule in $submodules; do
 
     if [[ $flag_sync=false ]]; then
        echo "** ${GITHUB_WORKSPACE} **NOT** up to date"
+       echo "Value of flag sync is $flag_sync"
        exit 1
     fi
 done
