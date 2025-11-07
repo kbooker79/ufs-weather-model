@@ -104,7 +104,7 @@ for submodule in $submodules; do
     get_shas $url $gitapi $branch $workspace
     echo "Value of flag sync before the block is is $flag_sync"
 
-    if [[ $flag_sync=false ]]; then
+    if [[ $flag_sync==false ]]; then
        echo "Value of flag sync in the block is is $flag_sync"
        echo "** ${GITHUB_WORKSPACE} **NOT** up to date"
        exit 1
