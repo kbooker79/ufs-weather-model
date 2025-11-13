@@ -76,8 +76,8 @@ pipeline {
         export FORK_BRANCH=$(curl --silent https://api.github.com/repos/ufs-community/ufs-weather-model/pulls/$CHANGE_ID | jq -r '.head.ref')
 	pwd
         sed "s|intel|gnu|g" -i opnReqTest
+        echo $GIT_URL
         export ACCNR=epic
-        export GIT_URL=${env.GIT_URL}
         export GIT_OWNER=$(echo $GIT_URL | cut -d '/' -f4) 
         export GIT_REPO_NAME=$(echo $GIT_URL | cut -d '/' -f5 | cut -d '.' -f1)
         git config user.email "ecc.platform@noaa.gov"
