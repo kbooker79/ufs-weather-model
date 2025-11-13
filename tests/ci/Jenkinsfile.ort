@@ -96,9 +96,10 @@ pipeline {
       node('hera') {
       sh '''
 	export machine=${NODE_NAME}
-        export GIT_OWNER=$(echo ${env.GIT_URL} | cut -d '/' -f4) 
-        export GIT_REPO_NAME=$(echo ${env.GIT_URL} | cut -d '/' -f5 | cut -d '.' -f1)
-        echo "Testing concluded...removing labels for $machine from ${env.GIT_URL}"
+        export GIT_URL=$GIT_URL
+        export GIT_OWNER=$(echo $GIT_URL | cut -d '/' -f4) 
+        export GIT_REPO_NAME=$(echo $GIT_URL | cut -d '/' -f5 | cut -d '.' -f1)
+        echo "Testing concluded...removing labels for $machine from $GIT_URL"
         echo "https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels/jenkins-ort"
         curl --silent -X DELETE -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer ${GITHUB_TOKEN}"  https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels/jenkins-ort
       '''
