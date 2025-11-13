@@ -93,7 +93,6 @@ pipeline {
   }
    post {
     always {
-      node('hera') {
       sh '''
 	export machine=${NODE_NAME}
         export GIT_URL='https://github.com/ufs-community/ufs-weather-model.git'
@@ -103,7 +102,6 @@ pipeline {
         echo "https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels/jenkins-ort"
         curl --silent -X DELETE -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer ${GITHUB_TOKEN}"  https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels/jenkins-ort
       '''
-      }
     }
    }
 }
