@@ -59,7 +59,6 @@ pipeline {
         ACCNR = 'epic'
         NODE_PATH = '/scratch3/NAGAPE/epic/role.epic/'
         GITHUB_TOKEN = credentials('GithubJenkinsNew')
-        GIT_URL = "$GIT_URL"
       }
       steps {
           
@@ -97,7 +96,7 @@ pipeline {
       node('hera') {
       sh '''
 	export machine=${NODE_NAME}
-        export GIT_URL=${env.GIT_URL}
+        export GIT_URL='https://github.com/ufs-community/ufs-weather-model.git'
         export GIT_OWNER=$(echo $GIT_URL | cut -d '/' -f4) 
         export GIT_REPO_NAME=$(echo $GIT_URL | cut -d '/' -f5 | cut -d '.' -f1)
         echo "Testing concluded...removing labels for $machine from $GIT_URL"
