@@ -78,8 +78,14 @@ pipeline {
         sed "s|intel|gnu|g" -i opnReqTest
         echo $GIT_URL
         export ACCNR=epic
+        export GIT_OWNER=$(echo $GIT_URL | cut -d '/' -f4) 
+        export GIT_REPO_NAME=$(echo $GIT_URL | cut -d '/' -f5 | cut -d '.' -f1)
         git config user.email "ecc.platform@noaa.gov"
         git config user.name "epic-cicd-jenkins"
+        echo "Testing concluded...removing labels for $machine from $GIT_URL"
+        echo "https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels/jenkins-ort"
+        curl --silent -X DELETE -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer ${GITHUB_TOKEN}"  https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels/jenkins-ort
+
         export machine_name_logs=$(echo $machine | awk '{ print tolower($1) }')
         git remote -v | grep -w sshorigin > /dev/null 2>&1 && git remote remove sshorigin > /dev/null 2>&1
         git remote add sshorigin $SSH_ORIGIN > /dev/null 2>&1
@@ -89,22 +95,13 @@ pipeline {
         git push sshorigin HEAD:$FORK_BRANCH
         '''
         }
-      }	      
-  }
-   post {
-        agent {
-          label "hera"
+      post {
+        always {
+         sh '''
+            echo $GIT_URL
+         ''' 
         }
-    always {
-      sh '''
-	export machine=${NODE_NAME}
-        export GIT_URL='https://github.com/ufs-community/ufs-weather-model.git'
-        export GIT_OWNER=$(echo $GIT_URL | cut -d '/' -f4) 
-        export GIT_REPO_NAME=$(echo $GIT_URL | cut -d '/' -f5 | cut -d '.' -f1)
-        echo "Testing concluded...removing labels for $machine from $GIT_URL"
-        echo "https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels/jenkins-ort"
-        curl --silent -X DELETE -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer ${GITHUB_TOKEN}"  https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels/jenkins-ort
-      '''
-    }
-   }
+      }
+    }	      
+  }
 }
