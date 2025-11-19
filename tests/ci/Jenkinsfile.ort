@@ -119,6 +119,22 @@ pipeline {
            curl --silent -X DELETE -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer ${GITHUB_TOKEN}"  https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels/jenkins-ort
          '''
         }
+        success {
+          slackSend (
+                channel: '#jenkins-notifications',
+                color: 'good',
+                message: "*SUCCESS: Build ${env.JOB_NAME} #${env.BUILD_NUMBER}* <${env.BUILD_URL}|Open Build>"
+            )
+        
+        }
+
+        failure {
+          slackSend (
+                channel: '#jenkins-notifications',
+                color: 'danger',
+                message: "*FAILURE: Build ${env.JOB_NAME} #${env.BUILD_NUMBER}*  <${env.BUILD_URL}|Open Build>"
+            )
+        }
       }
     }	      
   }
