@@ -53,7 +53,7 @@ function regression_test() {
 	cd tests
 		pwd
 
-		[[ ${UFS_PLATFORM} =~ clusternoaa ]] && echo "export BL_DATE=20240426" > bl_date.conf || cat bl_date.conf
+		[[ ${UFS_PLATFORM} =~ clusternoaa ]]
 
 		mkdir -p logs/
 		BL_DATE=$(cut -d '=' -f2 bl_date.conf)
