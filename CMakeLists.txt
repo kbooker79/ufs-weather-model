@@ -31,7 +31,6 @@ set(MPAS            OFF CACHE BOOL "Enable MPAS dycore")
 set(AQM             OFF CACHE BOOL "Enable AQM")
 set(UFS_GOCART      OFF CACHE BOOL "Enable GOCART")
 set(MOM6            OFF CACHE BOOL "Enable MOM6")
-set(HYCOM           OFF CACHE BOOL "Enable HYCOM")
 set(CICE6           OFF CACHE BOOL "Enable CICE6")
 set(LM4             OFF CACHE BOOL "Enable LM4")
 set(WW3             OFF CACHE BOOL "Enable WW3")
@@ -40,6 +39,7 @@ set(CMEPS           OFF CACHE BOOL "Enable CMEPS")
 set(CDEPS           OFF CACHE BOOL "Enable CDEPS")
 set(NOAHMP          OFF CACHE BOOL "Enable NOAHMP")
 set(FIRE_BEHAVIOR   OFF CACHE BOOL "Enable Fire Behavior")
+set(WARN_AS_ERROR   OFF CACHE BOOL "Enable compile option to treat warning as error")
 
 # Configure selected application specific components
 message("")
@@ -52,7 +52,6 @@ message("MPAS ............. ${MPAS}")
 message("AQM .............. ${AQM}")
 message("GOCART ........... ${UFS_GOCART}")
 message("MOM6 ............. ${MOM6}")
-message("HYCOM ............ ${HYCOM}")
 message("CICE6 ............ ${CICE6}")
 message("LM4 .............. ${LM4}")
 message("WW3 .............. ${WW3}")
@@ -61,6 +60,7 @@ message("CDEPS ............ ${CDEPS}")
 message("CMEPS ............ ${CMEPS}")
 message("NOAHMP ........... ${NOAHMP}")
 message("FIRE_BEHAVIOR .... ${FIRE_BEHAVIOR}")
+message("WARN_AS_ERROR .... ${WARN_AS_ERROR}")
 
 ###############################################################################
 ### Build Options
@@ -86,6 +86,7 @@ set(PDLIB           OFF CACHE BOOL "Enable Domain Decomposition in WW3 via PDLIB
 set(PDLIB_BT4       OFF CACHE BOOL "Enable Domain Decomposition in WW3 via PDLIB with BT4")
 set(CDEPS_INLINE    OFF CACHE BOOL "Enable CDEPS inline capability")
 set(HYDRO           OFF CACHE BOOL "Enable hydrostatic set")
+set(UFS_TRACING     OFF CACHE BOOL "Enable UFS Tracing")
 
 if(CMAKE_Platform)
   message("")
@@ -135,7 +136,8 @@ message("PARALLEL_NETCDF .. ${PARALLEL_NETCDF}")
 message("JEDI_DRIVER ...... ${JEDI_DRIVER}")
 message("CMEPS_AOFLUX ..... ${CMEPS_AOFLUX}")
 message("CDEPS_INLINE ..... ${CDEPS_INLINE}")
-message("HYDRO  ........... ${HYDRO}")
+message("HYDRO ............ ${HYDRO}")
+message("UFS_TRACING ...... ${UFS_TRACING}")
 
 message("")
 
@@ -180,7 +182,7 @@ if(FMS)
   endif()
 endif()
 
-if(CMEPS)
+if(CMEPS OR CDEPS)
   find_package(PIO 2.5.3 REQUIRED COMPONENTS C Fortran)
 endif()
 
@@ -196,6 +198,11 @@ endif()
 # Configure Python
 find_package(Python 3.6 REQUIRED COMPONENTS Interpreter)
 message("Found Python: ${Python_EXECUTABLE}")
+
+if(UFS_TRACING)
+  add_subdirectory(ufs_tracing)
+  add_compile_definitions(UFS_TRACING)
+endif()
 
 ###############################################################################
 ### stochastic_physics
@@ -255,14 +262,10 @@ if(WW3)
 endif()
 
 ###############################################################################
-### Marine Components [MOM6, HYCOM, CICE6]
+### Marine Components [MOM6, CICE6]
 ###############################################################################
 if(MOM6)
   add_subdirectory(MOM6-interface)
-endif()
-
-if(HYCOM)
-  add_subdirectory(HYCOM-interface)
 endif()
 
 if(CICE6)
@@ -307,6 +310,9 @@ endif()
 ### UFS Library
 ###############################################################################
 add_library(ufs driver/UFSDriver.F90)
+if(UFS_TRACING)
+  add_dependencies(ufs ufs_tracing)
+endif()
 set_target_properties(ufs PROPERTIES Fortran_MODULE_DIRECTORY
                                      ${CMAKE_CURRENT_BINARY_DIR}/mod)
 target_include_directories(ufs INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/mod>
@@ -354,12 +360,6 @@ if(MOM6)
   add_dependencies(ufs mom6)
   list(APPEND _ufs_defs_private FRONT_MOM6=mom_cap_mod)
   list(APPEND _ufs_libs_public mom6)
-endif()
-
-if(HYCOM)
-  list(APPEND _ufs_defs_private FRONT_HYCOM=HYCOM_Mod)
-  add_dependencies(ufs hycom)
-  target_link_libraries(ufs PUBLIC hycom)
 endif()
 
 if(CICE6)
