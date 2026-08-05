@@ -46,7 +46,7 @@ workspace=$(pwd)
 export workspace
 
 status=0
-
+#pedantic comment
 
 	echo "Pipeline Reqression Tests on ${UFS_PLATFORM} complete. status=${status}" | tee "${workspace}/${UFS_PLATFORM}-status"
 
