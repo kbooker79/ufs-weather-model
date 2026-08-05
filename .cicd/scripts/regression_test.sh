@@ -58,7 +58,7 @@ function regression_test() {
 		    export dprefix=/work2/noaa/${ACCNR}/${USER}
 		    sed "s|/noaa/stmp/|/noaa/${ACCNR}/stmp/|g" -i rt.sh
 		    export ACCNR=epic
-		    #./rt.sh -a "${ACCNR}" "${workflow}" "${opt}" "${suite}" | tee "${WORKSPACE}/tests/logs/RT-run-${machine}.log"
+		    ./rt.sh -a "${ACCNR}" "${workflow}" "${opt}" "${suite}" | tee "${WORKSPACE}/tests/logs/RT-run-${machine}.log"
 		    status=${PIPESTATUS[0]}
 		    cd logs/
 		    cp "RegressionTests_${machine_id}.log" "$(dirname "${WORKSPACE}")" #/work/noaa/epic/role-epic/jenkins/workspace
@@ -79,7 +79,7 @@ function regression_test() {
 		    cd tests
 		    export dprefix=/work2/noaa/${ACCNR}/${USER}
 		    sed "s|/noaa/stmp/|/noaa/${ACCNR}/stmp/|g" -i rt.sh
-		    #./rt.sh -a "${ACCNR}" "${workflow}" "${opt}" "${suite}" | tee "${WORKSPACE}/tests/logs/RT-run-${machine}.log"
+		    ./rt.sh -a "${ACCNR}" "${workflow}" "${opt}" "${suite}" | tee "${WORKSPACE}/tests/logs/RT-run-${machine}.log"
 		    status=${PIPESTATUS[0]}
 		    cd logs/
 		    cp "RegressionTests_${machine_id}.log" "$(dirname "${WORKSPACE}")" #/work/noaa/epic/role-epic/jenkins/workspace
@@ -93,7 +93,7 @@ function regression_test() {
 		elif [[ ${machine} =~ "Gaea" ]]
 		then
 		    echo "Running regression tests on ${machine}"
-		    #./rt.sh -a "${ACCNR}" "${workflow}" "${opt}" "${suite}" | tee "${WORKSPACE}/tests/logs/RT-run-${machine}.log"
+		    ./rt.sh -a "${ACCNR}" "${workflow}" "${opt}" "${suite}" | tee "${WORKSPACE}/tests/logs/RT-run-${machine}.log"
 		    status=${PIPESTATUS[0]}
 		    unset LD_LIBRARY_PATH
 		    cd logs/
@@ -111,7 +111,7 @@ function regression_test() {
 		    export ACCNR=epic
 		    sed "s|QUEUE=batch|QUEUE=windfall|g" -i rt.sh
 		    local workflow="-r"
-		    #./rt.sh -a "${ACCNR}" "${workflow}" "${opt}" "${suite}" | tee "${WORKSPACE}/tests/logs/RT-run-${machine}.log"
+		    ./rt.sh -a "${ACCNR}" "${workflow}" "${opt}" "${suite}" | tee "${WORKSPACE}/tests/logs/RT-run-${machine}.log"
 		    status=${PIPESTATUS[0]}
 		    cd logs/
 		    cp "RegressionTests_${machine_id}.log" "$(dirname "${WORKSPACE}")" #/scratch2/NAGAPE/epic/role.epic/jenkins/workspace
@@ -126,7 +126,7 @@ function regression_test() {
 		then
 		    echo "Running regression tests on ${machine}"
 		    export ACCNR=nral0032
-		    #./rt.sh -a "${ACCNR}" "${workflow}" "${opt}" "${suite}" | tee "${WORKSPACE}/tests/logs/RT-run-${machine}.log"
+		    ./rt.sh -a "${ACCNR}" "${workflow}" "${opt}" "${suite}" | tee "${WORKSPACE}/tests/logs/RT-run-${machine}.log"
 		    status=${PIPESTATUS[0]}
 		    cd logs/
 		    cp "RegressionTests_${machine_id}.log" "$(dirname "${WORKSPACE}")" #/glade/derecho/scratch/epicufsrt/jenkins/workspace
@@ -140,7 +140,7 @@ function regression_test() {
 		else
 		    echo "Running regression tests on ${machine}"
 		    local workflow="-r"
-		    #./rt.sh -a "${ACCNR}" "${workflow}" "${opt}" "${suite}" | tee "${WORKSPACE}/tests/logs/RT-run-${machine}.log"
+		    ./rt.sh -a "${ACCNR}" "${workflow}" "${opt}" "${suite}" | tee "${WORKSPACE}/tests/logs/RT-run-${machine}.log"
 		    status=${PIPESTATUS[0]}
 		fi
 
