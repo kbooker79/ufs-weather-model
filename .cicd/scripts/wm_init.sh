@@ -46,13 +46,10 @@ LABEL="${NODE_NAME}-CI-RUNNING"
 TOKEN="${GITHUB_TOKEN}"
 
 # Check if the node-CI-RUNNING label already exists on the PR
-HAS_LABEL=$(curl -s -H "Authorization: Bearer $TOKEN" \
-  -H "Accept: application/vnd.github+json" \
-  "https://github.com" \
+HAS_LABEL=$(curl -s -H "Authorization: Bearer $TOKEN" -H "Accept: application/vnd.github+json" "https://github.com" | jq --arg lbl "$LABEL" '[.[] | select(.name == $lbl)] | length')
 
-  | jq --arg lbl "$LABEL" '[.[] | select(.name == $lbl)] | length')
+#If length is 0, the label does not exist, so add it
 
-# If length is 0, the label does not exist, so add it
 if [ "$HAS_LABEL" -eq 0 ]; then
   curl -s -X POST -H "Authorization: Bearer $TOKEN" \
     -H "Accept: application/vnd.github+json" \
