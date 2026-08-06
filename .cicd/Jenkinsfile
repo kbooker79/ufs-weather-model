@@ -4,8 +4,8 @@ for (label in pullRequest.labels) {
     listOfLabelNodeNames = jenkins.model.Jenkins.instance.nodes.collect {
         node -> node.getLabelString().contains(label) ? node.name : null
 
-        if ((label.matches(node.getLabelString()+"-(.*)"))) {
-            matchedNode += node.getLabelString()
+        if (label.matches(node.getLabelString() + "-.*") && !label.contains("-CI-RUNNING")) {
+           matchedNode += node.getLabelString()
         }
 
         if ((label.matches(node.getLabelString()+"(.*)-BL"))) {
@@ -79,6 +79,7 @@ def generateStage(nodeLabel) {
 
                             echo "Testing concluded...removing labels for $machine from $GIT_URL"
                             echo "https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels/{$machine-RT,$machine-BL}"
+                            curl --silent -X DELETE -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer ${GITHUB_TOKEN}"  https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels/{$machine-CI-RUNNING}
                             curl --silent -X DELETE -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer ${GITHUB_TOKEN}"  https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels/{$machine-RT,$machine-BL}
                         '''
                         currentBuild.result = 'FAILURE'
@@ -132,6 +133,7 @@ def generateStage(nodeLabel) {
 
 			    echo "Testing concluded...removing label ${label} for ${machine} from ${GIT_URL}"
 			    echo "https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels/${machine}-${label}"
+			    curl --silent -X DELETE -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer ${GITHUB_TOKEN}"  https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels/{$machine-CI-RUNNING}
 			    curl --silent -X DELETE -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer ${GITHUB_TOKEN}"  https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels/{$machine-RT,$machine-BL}
 			'''
                 }

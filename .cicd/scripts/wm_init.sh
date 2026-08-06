@@ -38,3 +38,28 @@ echo "machine_id=<${machine_id}>"
 	-o "${WORKSPACE:-$(pwd)}/${UFS_PLATFORM}-${UFS_COMPILER}-time-wm_init.json" \
 	-f '{\n  "cpu": "%P"\n, "memMax": "%M"\n, "mem": {"text": "%X", "data": "%D", "swaps": "%W", "context": "%c", "waits": "%w"}\n, "pagefaults": {"major": "%F", "minor": "%R"}\n, "filesystem": {"inputs": "%I", "outputs": "%O"}\n, "time": {"real": "%e", "user": "%U", "sys": "%S"}\n}' \
 	pwd
+
+OWNER="ufs-community"
+REPO="ufs-weather-model"
+PR_NUMBER="123"
+LABEL="${NODE_NAME}-CI-RUNNING"
+TOKEN="${GITHUB_TOKEN}"
+
+# Check if the node-CI-RUNNING label already exists on the PR
+HAS_LABEL=$(curl -s -H "Authorization: Bearer $TOKEN" \
+  -H "Accept: application/vnd.github+json" \
+  "https://github.com" \
+
+  | jq --arg lbl "$LABEL" '[.[] | select(.name == $lbl)] | length')
+
+# If length is 0, the label does not exist, so add it
+if [ "$HAS_LABEL" -eq 0 ]; then
+  curl -s -X POST -H "Authorization: Bearer $TOKEN" \
+    -H "Accept: application/vnd.github+json" \
+    -d "{\"labels\": [\"$LABEL\"]}" \
+    "https://github.com"
+  echo "Label '$LABEL' added."
+else
+  echo "Label '$LABEL' already exists on PR."
+fi
+
