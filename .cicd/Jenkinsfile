@@ -20,8 +20,8 @@ for (label in pullRequest.labels) {
 }
 
 matchedNode = matchedNode.unique()
-ciRunningNodes = ciRunningNodes.unique()
-matchedNode = matchedNode - ciRunningNodes
+ciRunningNode = ciRunningNode.unique()
+matchedNode = matchedNode - ciRunningNode
 
 modifiedLabels = matchedNode.collect{"'" + it + "'"} 
 baselineLabels = generateBaselineNode.collect{"'" + it + "'"} 
