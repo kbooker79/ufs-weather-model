@@ -3,6 +3,7 @@ generateBaselineNode = []
 def filteredLabels = pullRequest.labels.findAll { label ->
     !label.contains("CI_RUNNING")
 }
+println "Filtered labels: ${filteredLabels}"
 for (label in filteredLabels) {
     
     listOfLabelNodeNames = jenkins.model.Jenkins.instance.nodes.collect {
