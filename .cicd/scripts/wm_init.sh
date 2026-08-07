@@ -41,5 +41,9 @@ echo "machine_id=<${machine_id}>"
 
 GIT_OWNER=$(echo $GIT_URL | cut -d '/' -f4)
 GIT_REPO_NAME=$(echo $GIT_URL | cut -d '/' -f5 | cut -d '.' -f1)
+echo "$GIT_OWNER"
+echo "GIT_REPO_NAME"
+echo "$CHANGE_ID"
 
-curl --silent -X POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer ${GITHUB_TOKEN}"  https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels/${UFS_PLATFORM-CI_RUNNING}
+echo "https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels/${UFS_PLATFORM}-CI_RUNNING"
+curl --silent -X POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer ${GITHUB_TOKEN}"  https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels/${UFS_PLATFORM}-CI_RUNNING
