@@ -4,8 +4,8 @@ for (label in pullRequest.labels) {
     listOfLabelNodeNames = jenkins.model.Jenkins.instance.nodes.collect {
         node -> node.getLabelString().contains(label) ? node.name : null
 
-        if ((label.matches(node.getLabelString()+"-(.*)"))) {
-
+        if ((label.matches(node.getLabelString()+"-(.*)") && (!label.matches(node.getLabelString()+"(.*)-CI_RUNNING")) {
+            matchedNode += node.getLabelString()
    	}
 
         if ((label.matches(node.getLabelString()+"(.*)-BL"))) {
