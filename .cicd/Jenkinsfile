@@ -1,14 +1,14 @@
+ciRunningNode = []
 matchedNode = []
 generateBaselineNode = []
-def filteredLabels = pullRequest.labels.findAll { label ->
-    !label.contains("CI_RUNNING")
-}
-println "Filtered labels: ${filteredLabels}"
-for (label in filteredLabels) {
-    
+for (label in pullRequest.labels) {
     listOfLabelNodeNames = jenkins.model.Jenkins.instance.nodes.collect {
         node -> node.getLabelString().contains(label) ? node.name : null
-     
+    
+        if ((label.contains("CI_RUNNING")) {
+           ciRunningNode += node.getLabelString()
+        }         
+
         if ((label.matches(node.getLabelString()+"-(.*)"))) {
            matchedNode += node.getLabelString()
         }         
@@ -19,8 +19,13 @@ for (label in filteredLabels) {
     }
 }
 
+matchedNode = matchedNode.unique()
+ciRunningNodes = ciRunningNodes.unique()
+matchedNode = matchedNode - ciRunningNodes
+
 modifiedLabels = matchedNode.collect{"'" + it + "'"} 
 baselineLabels = generateBaselineNode.collect{"'" + it + "'"} 
+
 def generateStage(nodeLabel) {
     return {
         stage("Initialize on ${nodeLabel.replaceAll("'","")}") {
