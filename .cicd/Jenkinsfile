@@ -7,6 +7,7 @@ for (label in pullRequest.labels) {
         if (label.matches(node.getLabelString() + "-.*") && !label.contains("CI_RUNNING")) {
 
             matchedNode += node.getLabelString()
+            println "Matched node: ${node.getLabelString()}"
         }
 
         if ((label.matches(node.getLabelString()+"(.*)-BL"))) {
