@@ -3,12 +3,23 @@ generateBaselineNode = []
 for (label in pullRequest.labels) {
     listOfLabelNodeNames = jenkins.model.Jenkins.instance.nodes.collect {
         node -> node.getLabelString().contains(label) ? node.name : null
-      
-        if (label.matches(node.getLabelString() + "-.*") && !label.contains("CI_RUNNING")) {
+     
+        def nodeLabel = node.getLabelString()
+        
+        def hasMatch = pullRequest.labels.any { label ->
+            label.matches(nodeLabel + "-.*")
+        } 
 
-            matchedNode += node.getLabelString()
-            println "Matched node: ${node.getLabelString()}"
+        def hasCiRunning = pullRequest.labels.any { label ->
+            label.matches(nodeLabel + "-.*CI_RUNNING.*")
         }
+
+        if (hasMatch && !hasCiRunning) {
+           matchedNode += nodeLabel
+           println "Matched node: ${nodeLabel}"
+        } else if (hasCiRunning) {
+          println "Excluded node due to CI_RUNNING: ${nodeLabel}"
+        }        
 
         if ((label.matches(node.getLabelString()+"(.*)-BL"))) {
             generateBaselineNode += node.getLabelString() 
