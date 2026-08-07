@@ -1,8 +1,12 @@
 matchedNode = []
 generateBaselineNode = []
-for (label in pullRequest.labels) {
+def filteredLabels = pullRequest.labels.findAll { label ->
+    !label.contains("CI_RUNNING")
+}
+for (label in filteredLabels) {
+    
     listOfLabelNodeNames = jenkins.model.Jenkins.instance.nodes.collect {
-        node -> node.getLabelString().contains(label) ? node.name : null && !label.contains("CI_RUNNING")
+        node -> node.getLabelString().contains(label) ? node.name : null
      
         if ((label.matches(node.getLabelString()+"-(.*)"))) {
            matchedNode += node.getLabelString()
