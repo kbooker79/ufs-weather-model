@@ -26,6 +26,12 @@ matchedNode = matchedNode - ciRunningNode
 modifiedLabels = matchedNode.collect{"'" + it + "'"} 
 baselineLabels = generateBaselineNode.collect{"'" + it + "'"} 
 
+if (modifiedLabels.isEmpty()) {
+   echo "No new labels. Skipping build."
+   currentBuild.result = 'NOT_BUILT'
+   return // Exits the stage/script early
+}
+
 def generateStage(nodeLabel) {
     return {
         stage("Initialize on ${nodeLabel.replaceAll("'","")}") {

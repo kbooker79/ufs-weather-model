@@ -126,6 +126,7 @@ function regression_test() {
 		then
 		    echo "Running regression tests on ${machine}"
 		    export ACCNR=nral0032
+		    local workflow="-e"
 		    ./rt.sh -a "${ACCNR}" "${workflow}" "${opt}" "${suite}" | tee "${WORKSPACE}/tests/logs/RT-run-${machine}.log"
 		    status=${PIPESTATUS[0]}
 		    cd logs/
