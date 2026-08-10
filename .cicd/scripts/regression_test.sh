@@ -105,12 +105,11 @@ function regression_test() {
 		    pwd
 		    cp "$(dirname "${WORKSPACE}")/RegressionTests_${machine_id}.log" "${WORKSPACE}/tests/logs/"
 		    cd "${WORKSPACE}/tests/"
-		elif [[ ${machine} =~ "Hera" ]]
+		elif [[ ${machine} =~ "Ursa" ]]
 		then
 		    echo "Running regression tests on ${machine}"
 		    export ACCNR=epic
-		    sed "s|QUEUE=batch|QUEUE=windfall|g" -i rt.sh
-		    local workflow="-r"
+		    local workflow="-e"
 		    ./rt.sh -a "${ACCNR}" "${workflow}" "${opt}" "${suite}" | tee "${WORKSPACE}/tests/logs/RT-run-${machine}.log"
 		    status=${PIPESTATUS[0]}
 		    cd logs/
