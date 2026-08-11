@@ -39,8 +39,8 @@ echo "machine_id=<${machine_id}>"
 	-f '{\n  "cpu": "%P"\n, "memMax": "%M"\n, "mem": {"text": "%X", "data": "%D", "swaps": "%W", "context": "%c", "waits": "%w"}\n, "pagefaults": {"major": "%F", "minor": "%R"}\n, "filesystem": {"inputs": "%I", "outputs": "%O"}\n, "time": {"real": "%e", "user": "%U", "sys": "%S"}\n}' \
 	pwd
 
-GIT_OWNER=$(echo $GIT_URL | cut -d '/' -f4)
-GIT_REPO_NAME=$(echo $GIT_URL | cut -d '/' -f5 | cut -d '.' -f1)
+GIT_OWNER=$(echo "$GIT_URL" | cut -d '/' -f4)
+GIT_REPO_NAME=$(echo "$GIT_URL" | cut -d '/' -f5 | cut -d '.' -f1)
 echo "$GIT_OWNER"
 echo "GIT_REPO_NAME"
 echo "$CHANGE_ID"
