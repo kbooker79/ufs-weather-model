@@ -46,4 +46,4 @@ echo "GIT_REPO_NAME"
 echo "$CHANGE_ID"
 
 echo "https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels/${UFS_PLATFORM}-CI_RUNNING"
-curl --silent -X POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer ${GITHUB_TOKEN}"  https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels -d '{"labels":["'"$UFS_PLATFORM"'-CI_RUNNING"]}'
+curl --silent -X POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer ${GITHUB_TOKEN}"  https://api.github.com/repos/"${GIT_OWNER}"/"${GIT_REPO_NAME}"/issues/"${CHANGE_ID}"/labels -d '{"labels":["'"$UFS_PLATFORM"'-CI_RUNNING"]}'
