@@ -1,6 +1,6 @@
-def ciRunningNode = []
-def matchedNode = []
-def generateBaselineNode = []
+ciRunningNode = []
+matchedNode = []
+generateBaselineNode = []
 for (label in pullRequest.labels) {
     listOfLabelNodeNames = jenkins.model.Jenkins.instance.nodes.collect {
         node -> node.getLabelString().contains(label) ? node.name : null
@@ -23,8 +23,8 @@ matchedNode = matchedNode.unique()
 ciRunningNode = ciRunningNode.unique()
 matchedNode = matchedNode - ciRunningNode
 
-def modifiedLabels = matchedNode.collect{"'" + it + "'"} 
-def baselineLabels = generateBaselineNode.collect{"'" + it + "'"} 
+modifiedLabels = matchedNode.collect{"'" + it + "'"} 
+baselineLabels = generateBaselineNode.collect{"'" + it + "'"} 
 
 if (modifiedLabels.isEmpty()) {
    echo "No new labels. Skipping build."
