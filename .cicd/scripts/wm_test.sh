@@ -45,7 +45,7 @@ if [[ ${UFS_PLATFORM} =~ clusternoaa ]] ; then
 	#sed -i -e "s|EPIC/spack-stack/spack-stack-1.5.0|spack-stack/spack-stack-1.5.1|g" modulefiles/ufs_noaacloud.intel.lua
 fi
 echo "machine_id=<${machine_id}>"
-echo "inside the testing shell script! on $machine_id!"
+
 workspace=$(pwd)
 export workspace
 
