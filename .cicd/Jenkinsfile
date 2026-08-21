@@ -54,7 +54,7 @@ def generateStage(nodeLabel) {
 
                            GIT_OWNER=$(echo "$GIT_URL" | cut -d '/' -f4)
                            GIT_REPO_NAME=$(echo "$GIT_URL" | cut -d '/' -f5 | cut -d '.' -f1)
-                           UFS_PLATFORM=${UFS_PLATFORM}
+                           UFS_PLATFORM=${UFS_PLATFORM:-${NODE_NAME,,}}
                            echo "$GIT_OWNER"
                            echo "GIT_REPO_NAME"
                            echo "$CHANGE_ID"
