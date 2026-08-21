@@ -54,14 +54,10 @@ def generateStage(nodeLabel) {
 
                            GIT_OWNER=$(echo "$GIT_URL" | cut -d '/' -f4)
                            GIT_REPO_NAME=$(echo "$GIT_URL" | cut -d '/' -f5 | cut -d '.' -f1)
-                           UFS_PLATFORM=${UFS_PLATFORM:-${NODE_NAME,,}}
                            echo "$GIT_OWNER"
                            echo "GIT_REPO_NAME"
                            echo "$CHANGE_ID"
-                           echo "$UFS_PLATFORM"
 
-                           echo "https://api.github.com/repos/${GIT_OWNER}/${GIT_REPO_NAME}/issues/${CHANGE_ID}/labels/${UFS_PLATFORM}-CI_RUNNING"
-                           curl --silent -X POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer ${GITHUB_TOKEN}"  https://api.github.com/repos/"${GIT_OWNER}"/"${GIT_REPO_NAME}"/issues/"${CHANGE_ID}"/labels -d '{"labels":["'"$UFS_PLATFORM"'-CI_RUNNING"]}'
 
                         '''
 			s3Upload consoleLogLevel: 'INFO', dontSetBuildResultOnFailure: false, dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: 'noaa-epic-prod-jenkins-artifacts', excludedFile: '', flatten: false, gzipFiles: false, keepForever: false, managedArtifacts: true, noUploadOnFailure: false, selectedRegion: 'us-east-1', showDirectlyInBrowser: false, sourceFile: "${UFS_PLATFORM}-*-time-wm_init.json", storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false]], pluginFailureResultConstraint: 'FAILURE', profileName: 'main', userMetadata: []
