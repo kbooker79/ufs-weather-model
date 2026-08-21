@@ -1,9 +1,8 @@
 def ciRunningNode = []
 def matchedNode = []
 def generateBaselineNode = []
-def listOfLabelNodeNames
 for (label in pullRequest.labels) {
-    listOfLabelNodeNames = jenkins.model.Jenkins.instance.nodes.collect {
+    def listOfLabelNodeNames = jenkins.model.Jenkins.instance.nodes.collect as ArrayList {
         node -> node.getLabelString().contains(label) ? node.name : null
     
         if (label.startsWith(node.getLabelString() + "-") && label.contains("CI_RUNNING")) {
