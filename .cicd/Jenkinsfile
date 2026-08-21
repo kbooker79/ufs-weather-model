@@ -1,20 +1,32 @@
 def ciRunningNode = []
 def matchedNode = []
 def generateBaselineNode = []
+def listOfLabelNodeNames = []
+
 for (label in pullRequest.labels) {
-    def listOfLabelNodeNames = jenkins.model.Jenkins.instance.nodes.collect as ArrayList {
-        node -> node.getLabelString().contains(label) ? node.name : null
-    
-        if (label.startsWith(node.getLabelString() + "-") && label.contains("CI_RUNNING")) {
-           ciRunningNode += node.getLabelString()
+    jenkins.model.Jenkins.instance.nodes.each { node ->
+
+        def nodeLabel = node.getLabelString()
+
+        // Nodes whose label string contains the PR label
+        if (nodeLabel.contains(label)) {
+            listOfLabelNodeNames << node.name
         }
 
-        if ((label.matches(node.getLabelString()+"-(.*)"))) {
-           matchedNode += node.getLabelString()
-        }         
+        // Example: node01-CI_RUNNING
+        if (label.startsWith(nodeLabel + "-") &&
+            label.contains("CI_RUNNING")) {
+            ciRunningNode << nodeLabel
+        }
 
-        if ((label.matches(node.getLabelString()+"(.*)-BL"))) {
-            generateBaselineNode += node.getLabelString() 
+        // Example: node01-anything
+        if (label.matches("${java.util.regex.Pattern.quote(nodeLabel)}-(.*)")) {
+            matchedNode << nodeLabel
+        }
+
+        // Example: node01-anything-BL
+        if (label.matches("${java.util.regex.Pattern.quote(nodeLabel)}(.*)-BL")) {
+            generateBaselineNode << nodeLabel
         }
     }
 }
