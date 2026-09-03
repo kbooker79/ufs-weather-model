@@ -25,7 +25,6 @@ pipeline {
                   if ((label.matches(node.getLabelString()+"-(.*)-ORT"))) {
                      env.CHOICE_NODE+= node.getLabelString()
                   }
-             }
            }
           
           } // End of for loop
