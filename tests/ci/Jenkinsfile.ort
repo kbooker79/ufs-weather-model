@@ -22,7 +22,7 @@ pipeline {
           for (label in pullRequest.labels) {
               listOfLabelNodeNames = jenkins.model.Jenkins.instance.nodes.collect {
                   node -> node.getLabelString().contains(label) ? node.name : null
-                  if ((label.matches(node.getLabelString()+"-(.*)-ORT"))) {
+                  if ((label.matches(node.getLabelString()+"(.*)-ORT"))) {
                      env.CHOICE_NODE+= node.getLabelString()
                   }
            }
