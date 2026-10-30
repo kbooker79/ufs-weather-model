@@ -1,0 +1,37 @@
+# This is a basic workflow that is manually triggered
+
+name: UFS Weather Model Github Actions Test
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on: 
+    workflow_dispatch: 
+jobs:
+ 
+ run-on-runners:
+    name: Execute on Selected Runner
+    strategy:
+      matrix:
+        runner: [orion, hercules, gaeac6, ursa]
+    
+    # self-hosted is required, followed by the specific runner label from the matrix
+    runs-on: [self-hosted, "${{ matrix.runner }}"]
+
+    steps:
+
+      - name: Run a Sample Script
+        run: |
+          echo "Running on runner: ${{ matrix.runner }}"
+          echo "Hostname of the machine:"
+          hostname
+          
+      - name: Send Slack Notification
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          payload: |
+            {
+              "channel": "C0C4L4GTH2N", 
+              "text": ":spack: *${{ github.workflow }}* completed on *${{ matrix.runner }}* with status: *${{ job.status }}*\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+            }
